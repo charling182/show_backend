@@ -1,16 +1,26 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "define-your-own-databse-for-development",
+    "username": "charling",
+    "password": "18240542192",
+    "database": "egg_charling_dev",
     "host": "127.0.0.1",
+    "port": "33066",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
     "password": null,
-    "database": "define-your-own-databse-for-unittest",
+    "database": "database_test",
     "host": "127.0.0.1",
+    "port": "33066",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "port": "33066",
     "dialect": "mysql"
   }
 }
