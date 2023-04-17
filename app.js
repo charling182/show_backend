@@ -6,6 +6,7 @@
 // const fs = require('fs');
 // const { permissionsToRedis } = require('./app-boot-hook-do');
 // const Sentry = require('@sentry/node');
+const NodeRSA = require('node-rsa');
 
 class AppBootHook {
   constructor(app) {
@@ -83,6 +84,13 @@ class AppBootHook {
     // if (!fs.existsSync(public_uploads)) {
     //   fs.mkdirSync(public_uploads, { recursive: true });
     // }
+    const key = new NodeRSA({ b: 512 });
+    
+    const publicKey = key.exportKey('public');
+    const privateKey = key.exportKey('private');
+    
+    console.log('Public key:', publicKey);
+    console.log('Private key:', privateKey);
   }
 
   async serverDidReady() {
