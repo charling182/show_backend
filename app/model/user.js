@@ -89,6 +89,11 @@ module.exports = app => {
       paranoid: true,
       charset: 'utf8mb4',
       collate: 'utf8mb4_unicode_ci',
+      scopes: {
+        withPassword: {
+          attributes: {},
+        },
+      },
     }
   );
 

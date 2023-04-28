@@ -86,121 +86,121 @@ module.exports = {
   // },
 };
 
-// module.exports.tools = {
-//   // 根据ID验证数据是否存在；存在则返回对象，不存在则抛出404。
-//   async findByPkSequelize(ctx, target, id) {
-//     const item = await ctx.model[target].findByPk(id);
-//     return !item ? ctx.helper.NOT_FOUND({ ctx }) : item;
-//   },
+module.exports.tools = {
+  // 根据ID验证数据是否存在；存在则返回对象，不存在则抛出404。
+  async findByPkSequelize(ctx, target, id) {
+    const item = await ctx.model[target].findByPk(id);
+    return !item ? ctx.helper.NOT_FOUND({ ctx }) : item;
+  },
 
-//   // 密码“加盐”
-//   async saltPassword(password, salt = crypto.createHash('md5')
-//     .update(Math.random()
-//       .toString())
-//     .digest('hex')) {
-//     const password_finally = crypto
-//       .createHash('md5')
-//       .update(password + ':' + salt)
-//       .digest('hex');
-//     return {
-//       salt,
-//       password: password_finally,
-//     };
-//   },
+  // 密码“加盐”
+  async saltPassword(password, salt = crypto.createHash('md5')
+    .update(Math.random()
+      .toString())
+    .digest('hex')) {
+    const password_finally = crypto
+      .createHash('md5')
+      .update(password + ':' + salt)
+      .digest('hex');
+    return {
+      salt,
+      password: password_finally,
+    };
+  },
 
-//   async apply(ctx, params = {}, exp = 60, secret = ctx.app.config.jwt.secret) {
-//     return ctx.app.jwt.sign(
-//       {
-//         data: params,
-//         // exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7)
-//         exp: Math.floor(Date.now() / 1000) + exp,
-//         // exp: Math.floor(Date.now() / 1000) + (10),
-//       },
-//       secret
-//     );
-//   },
+  async apply(ctx, params = {}, exp = 60, secret = ctx.app.config.jwt.secret) {
+    return ctx.app.jwt.sign(
+      {
+        data: params,
+        // exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7)
+        exp: Math.floor(Date.now() / 1000) + exp,
+        // exp: Math.floor(Date.now() / 1000) + (10),
+      },
+      secret
+    );
+  },
 
-//   isParam(param) {
-//     return !param && param !== 0;
-//   },
+  isParam(param) {
+    return !param && param !== 0;
+  },
 
-//   /**
-//    * findAll请求根据rule处理query值
-//    * @param rule 规则
-//    * @param queryOrigin 原请求参数
-//    * @param ruleOther 追加规则
-//    * @param findAllParamsOther 追加搜索字段
-//    * @param keywordLikeExcludeParams 关键字keyword模糊搜索排除字段
-//    * @return {{query: {where: {}}, allRule: {offset: {default: number, type: string, required: boolean}, prop_order: {values, type: string, required: boolean}, limit: {type: string, required: boolean}, order: {values: [string, string, string], type: string, required: boolean}}}}
-//    */
-//   findAllParamsDeal(options) {
-//     const { rule, queryOrigin, ruleOther = {}, findAllParamsOther = {}, keywordLikeExcludeParams = [] } = options;
-//     const _rule = lodash.cloneDeep(rule);
-//     const query = {
-//       where: {},
-//     };
-//     for (const ruleKey in _rule) {
-//       _rule[ruleKey].required = false;
-//     }
-//     const findAllParams = {
-//       keyword: {
-//         type: 'string',
-//         trim: true,
-//         required: false,
-//         max: 36,
-//       },
-//       prop_order: {
-//         type: 'enum',
-//         required: false,
-//         values: [...Object.keys(_rule), ''],
-//       },
-//       order: {
-//         type: 'enum',
-//         required: false,
-//         values: ['desc', 'asc', ''],
-//       },
-//       limit: {
-//         type: 'number',
-//         required: false,
-//       },
-//       offset: {
-//         type: 'number',
-//         required: false,
-//         default: 0,
-//       },
-//       ...findAllParamsOther,
-//     };
-//     const allRule = {
-//       ..._rule,
-//       ...ruleOther,
-//       ...findAllParams,
-//     };
-//     // 根据rule处理query，剔除非rule检查字段
-//     for (const queryKey in queryOrigin) {
-//       if (_rule.hasOwnProperty(queryKey)) {
-//         query.where[queryKey] = queryOrigin[queryKey];
-//       }
-//       if (allRule.hasOwnProperty(queryKey)) {
-//         query[queryKey] = queryOrigin[queryKey];
-//       }
-//     }
-//     // 如果搜索参数queryOrigin中带有keyword，且不为空字符串，则视keyword为模糊搜索
-//     if (queryOrigin.hasOwnProperty('keyword') && queryOrigin.keyword.trim() !== '') {
-//       query.where[Op.or] = [];
-//       for (const queryKey in _rule) {
-//         // 非模糊搜索排除字段的所有rule中的字段, 且数据类型为string，做模糊查询
-//         if (!keywordLikeExcludeParams.includes(queryKey) && _rule[queryKey].type === 'string') {
-//           query.where[Op.or].push({ [queryKey]: { [Op.like]: `%${queryOrigin.keyword.trim()}%` } });
-//         }
-//       }
-//     }
+  /**
+   * findAll请求根据rule处理query值
+   * @param rule 规则
+   * @param queryOrigin 原请求参数
+   * @param ruleOther 追加规则
+   * @param findAllParamsOther 追加搜索字段
+   * @param keywordLikeExcludeParams 关键字keyword模糊搜索排除字段
+   * @return {{query: {where: {}}, allRule: {offset: {default: number, type: string, required: boolean}, prop_order: {values, type: string, required: boolean}, limit: {type: string, required: boolean}, order: {values: [string, string, string], type: string, required: boolean}}}}
+   */
+  findAllParamsDeal(options) {
+    const { rule, queryOrigin, ruleOther = {}, findAllParamsOther = {}, keywordLikeExcludeParams = [] } = options;
+    const _rule = lodash.cloneDeep(rule);
+    const query = {
+      where: {},
+    };
+    for (const ruleKey in _rule) {
+      _rule[ruleKey].required = false;
+    }
+    const findAllParams = {
+      keyword: {
+        type: 'string',
+        trim: true,
+        required: false,
+        max: 36,
+      },
+      prop_order: {
+        type: 'enum',
+        required: false,
+        values: [...Object.keys(_rule), ''],
+      },
+      order: {
+        type: 'enum',
+        required: false,
+        values: ['desc', 'asc', ''],
+      },
+      limit: {
+        type: 'number',
+        required: false,
+      },
+      offset: {
+        type: 'number',
+        required: false,
+        default: 0,
+      },
+      ...findAllParamsOther,
+    };
+    const allRule = {
+      ..._rule,
+      ...ruleOther,
+      ...findAllParams,
+    };
+    // 根据rule处理query，剔除非rule检查字段
+    for (const queryKey in queryOrigin) {
+      if (_rule.hasOwnProperty(queryKey)) {
+        query.where[queryKey] = queryOrigin[queryKey];
+      }
+      if (allRule.hasOwnProperty(queryKey)) {
+        query[queryKey] = queryOrigin[queryKey];
+      }
+    }
+    // 如果搜索参数queryOrigin中带有keyword，且不为空字符串，则视keyword为模糊搜索
+    if (queryOrigin.hasOwnProperty('keyword') && queryOrigin.keyword.trim() !== '') {
+      query.where[Op.or] = [];
+      for (const queryKey in _rule) {
+        // 非模糊搜索排除字段的所有rule中的字段, 且数据类型为string，做模糊查询
+        if (!keywordLikeExcludeParams.includes(queryKey) && _rule[queryKey].type === 'string') {
+          query.where[Op.or].push({ [queryKey]: { [Op.like]: `%${queryOrigin.keyword.trim()}%` } });
+        }
+      }
+    }
 
-//     return {
-//       allRule,
-//       query,
-//     };
-//   },
-// };
+    return {
+      allRule,
+      query,
+    };
+  },
+};
 
 module.exports.body = {
   // [GET]：服务器成功返回用户请求的数据

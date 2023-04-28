@@ -13,4 +13,12 @@ module.exports = {
     enable: true,
     package: 'egg-validate',
   },
+  jwt: {
+    enable: true,
+    package: 'egg-jwt',
+  },
+  mailer: {
+    enable: true,
+    package: 'egg-mailer',
+  },
 };

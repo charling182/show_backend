@@ -1015,6 +1015,11 @@ ast-types@^0.13.2:
   dependencies:
     tslib "^2.0.1"
 
+async@^1.5.0:
+  version "1.5.2"
+  resolved "http://npm.fe.flyudesk.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
+  integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "http://npm.fe.flyudesk.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -1948,6 +1953,11 @@ browserslist@^3.2.6:
   dependencies:
     caniuse-lite "^1.0.30000844"
     electron-to-chromium "^1.3.47"
+
+buffer-equal-constant-time@1.0.1:
+  version "1.0.1"
+  resolved "http://npm.fe.flyudesk.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
+  integrity sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=
 
 buffer-from@^1.0.0, buffer-from@^1.1.0:
   version "1.1.2"
@@ -2929,6 +2939,13 @@ eastasianwidth@^0.2.0:
   resolved "http://npm.fe.flyudesk.com/eastasianwidth/-/eastasianwidth-0.2.0.tgz#696ce2ec0aa0e6ea93a397ffcf24aa7840c827cb"
   integrity sha1-aWzi7Aqg5uqTo5f/zySqeEDIJ8s=
 
+ecdsa-sig-formatter@1.0.11:
+  version "1.0.11"
+  resolved "http://npm.fe.flyudesk.com/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.11.tgz#ae0f0fa2d85045ef14a817daa3ce9acd0489e5bf"
+  integrity sha1-rg8PothQRe8UqBfao86azQSJ5b8=
+  dependencies:
+    safe-buffer "^5.0.1"
+
 editorconfig@^0.15.3:
   version "0.15.3"
   resolved "http://npm.fe.flyudesk.com/editorconfig/-/editorconfig-0.15.3.tgz#bef84c4e75fb8dcb0ce5cee8efd51c15999befc5"
@@ -3062,6 +3079,14 @@ egg-jsonp@^2.0.0:
     is-type-of "^1.2.0"
     jsonp-body "^1.0.0"
 
+egg-jwt@^3.1.7:
+  version "3.1.7"
+  resolved "http://npm.fe.flyudesk.com/egg-jwt/-/egg-jwt-3.1.7.tgz#4db8d430291a2947bfdbc4bdabc585c7586a08b4"
+  integrity sha512-N3An6zn8f2AgbmRXAeJEL2sKhMDul3Sv1vPXr84FTBZDQUIvnhyRDBEoMz6X064aWlKVTIAApwK2OqyIoZGpvw==
+  dependencies:
+    jsonwebtoken "^8.3.0"
+    koa-jwt2 "^1.0.3"
+
 egg-logger@^2.3.2, egg-logger@^2.4.1:
   version "2.9.1"
   resolved "http://npm.fe.flyudesk.com/egg-logger/-/egg-logger-2.9.1.tgz#c4fe72388044ce7559ba2fdcde74d4c395a01450"
@@ -3084,6 +3109,13 @@ egg-logrotator@^3.0.5:
     debug "^4.1.1"
     moment "^2.24.0"
     mz "^2.7.0"
+
+egg-mailer@^1.5.0:
+  version "1.5.0"
+  resolved "http://npm.fe.flyudesk.com/egg-mailer/-/egg-mailer-1.5.0.tgz#cef6e3cffd859fef6085d3059ca1e27fc2764028"
+  integrity sha512-Emw+BawVk4c399K0yB0vIZs4m9l2k1M9wZTmY5yF2ubtb7kFzqsmmOye2PiVscg1YPl4vQQrqxa9kgdl5huH1w==
+  dependencies:
+    nodemailer "^6.4.17"
 
 egg-mock@^3.19.2:
   version "3.26.0"
@@ -5471,6 +5503,22 @@ jsonp-body@^1.0.0:
   resolved "http://npm.fe.flyudesk.com/jsonp-body/-/jsonp-body-1.0.0.tgz#e610fb6fcea79cf0cc9f27baa7b56377d4b0bb36"
   integrity sha1-5hD7b86nnPDMnye6p7Vjd9SwuzY=
 
+jsonwebtoken@^8.1.0, jsonwebtoken@^8.3.0:
+  version "8.5.1"
+  resolved "http://npm.fe.flyudesk.com/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
+  integrity sha1-AOceC431TCEhofJhN98igGc7zA0=
+  dependencies:
+    jws "^3.2.2"
+    lodash.includes "^4.3.0"
+    lodash.isboolean "^3.0.3"
+    lodash.isinteger "^4.0.4"
+    lodash.isnumber "^3.0.3"
+    lodash.isplainobject "^4.0.6"
+    lodash.isstring "^4.0.1"
+    lodash.once "^4.0.0"
+    ms "^2.1.1"
+    semver "^5.6.0"
+
 "jsx-ast-utils@^2.4.1 || ^3.0.0", jsx-ast-utils@^3.3.3:
   version "3.3.3"
   resolved "http://npm.fe.flyudesk.com/jsx-ast-utils/-/jsx-ast-utils-3.3.3.tgz#76b3e6e6cece5c69d49a5792c3d01bd1a0cdc7ea"
@@ -5478,6 +5526,23 @@ jsonp-body@^1.0.0:
   dependencies:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
+
+jwa@^1.4.1:
+  version "1.4.1"
+  resolved "http://npm.fe.flyudesk.com/jwa/-/jwa-1.4.1.tgz#743c32985cb9e98655530d53641b66c8645b039a"
+  integrity sha1-dDwymFy56YZVUw1TZBtmyGRbA5o=
+  dependencies:
+    buffer-equal-constant-time "1.0.1"
+    ecdsa-sig-formatter "1.0.11"
+    safe-buffer "^5.0.1"
+
+jws@^3.2.2:
+  version "3.2.2"
+  resolved "http://npm.fe.flyudesk.com/jws/-/jws-3.2.2.tgz#001099f3639468c9414000e99995fa52fb478304"
+  integrity sha1-ABCZ82OUaMlBQADpmZX6UvtHgwQ=
+  dependencies:
+    jwa "^1.4.1"
+    safe-buffer "^5.0.1"
 
 keygrip@~1.1.0:
   version "1.1.0"
@@ -5558,6 +5623,17 @@ koa-is-json@^1.0.0:
   resolved "http://npm.fe.flyudesk.com/koa-is-json/-/koa-is-json-1.0.0.tgz#273c07edcdcb8df6a2c1ab7d59ee76491451ec14"
   integrity sha1-JzwH7c3Ljfaiwat9We52SRRR7BQ=
 
+koa-jwt2@^1.0.3:
+  version "1.0.3"
+  resolved "http://npm.fe.flyudesk.com/koa-jwt2/-/koa-jwt2-1.0.3.tgz#a80309800d0bb2c0f957b8b2cecc2cae0444f219"
+  integrity sha512-ACW/sQ21vlkR/HBXnGvJfM2yDkKnv1GZe6/1nro+Mt4+bWhJq007esu2h9oZcj2+nce47PXcan2rXVaKmX295w==
+  dependencies:
+    async "^1.5.0"
+    jsonwebtoken "^8.1.0"
+    koa-unless "^1.0.7"
+    lodash.isfunction "^3.0.9"
+    lodash.set "^4.0.0"
+
 koa-locales@^1.11.0:
   version "1.12.0"
   resolved "http://npm.fe.flyudesk.com/koa-locales/-/koa-locales-1.12.0.tgz#0c2a7082947a9263afc25ba73b68af6a2201f09d"
@@ -5610,6 +5686,11 @@ koa-static-cache@^5.1.2:
     fs-readdir-recursive "^1.0.0"
     mime-types "^2.1.8"
     mz "^2.7.0"
+
+koa-unless@^1.0.7:
+  version "1.0.7"
+  resolved "http://npm.fe.flyudesk.com/koa-unless/-/koa-unless-1.0.7.tgz#b9df375e2b4da3043918d48622520c2c0b79f032"
+  integrity sha1-ud83XitNowQ5GNSGIlIMLAt58DI=
 
 koa@^2.14.0:
   version "2.14.2"
@@ -5732,6 +5813,51 @@ lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "http://npm.fe.flyudesk.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
   integrity sha1-+wMJF/hqMTTlvJvsDWngAT3f7bI=
+
+lodash.includes@^4.3.0:
+  version "4.3.0"
+  resolved "http://npm.fe.flyudesk.com/lodash.includes/-/lodash.includes-4.3.0.tgz#60bb98a87cb923c68ca1e51325483314849f553f"
+  integrity sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8=
+
+lodash.isboolean@^3.0.3:
+  version "3.0.3"
+  resolved "http://npm.fe.flyudesk.com/lodash.isboolean/-/lodash.isboolean-3.0.3.tgz#6c2e171db2a257cd96802fd43b01b20d5f5870f6"
+  integrity sha1-bC4XHbKiV82WgC/UOwGyDV9YcPY=
+
+lodash.isfunction@^3.0.9:
+  version "3.0.9"
+  resolved "http://npm.fe.flyudesk.com/lodash.isfunction/-/lodash.isfunction-3.0.9.tgz#06de25df4db327ac931981d1bdb067e5af68d051"
+  integrity sha1-Bt4l302zJ6yTGYHRvbBn5a9o0FE=
+
+lodash.isinteger@^4.0.4:
+  version "4.0.4"
+  resolved "http://npm.fe.flyudesk.com/lodash.isinteger/-/lodash.isinteger-4.0.4.tgz#619c0af3d03f8b04c31f5882840b77b11cd68343"
+  integrity sha1-YZwK89A/iwTDH1iChAt3sRzWg0M=
+
+lodash.isnumber@^3.0.3:
+  version "3.0.3"
+  resolved "http://npm.fe.flyudesk.com/lodash.isnumber/-/lodash.isnumber-3.0.3.tgz#3ce76810c5928d03352301ac287317f11c0b1ffc"
+  integrity sha1-POdoEMWSjQM1IwGsKHMX8RwLH/w=
+
+lodash.isplainobject@^4.0.6:
+  version "4.0.6"
+  resolved "http://npm.fe.flyudesk.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
+  integrity sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
+
+lodash.isstring@^4.0.1:
+  version "4.0.1"
+  resolved "http://npm.fe.flyudesk.com/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
+  integrity sha1-1SfftUVuynzJu5XV2ur4i6VKVFE=
+
+lodash.once@^4.0.0:
+  version "4.1.1"
+  resolved "http://npm.fe.flyudesk.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
+  integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
+
+lodash.set@^4.0.0:
+  version "4.3.2"
+  resolved "http://npm.fe.flyudesk.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
 
 lodash@^4.17.1, lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.21"
@@ -6269,6 +6395,11 @@ node-rsa@^1.1.1:
   integrity sha1-79mtOCCXeC9QYVM5hJb3nkRkQ00=
   dependencies:
     asn1 "^0.2.4"
+
+nodemailer@^6.4.17:
+  version "6.9.1"
+  resolved "http://npm.fe.flyudesk.com/nodemailer/-/nodemailer-6.9.1.tgz#8249d928a43ed85fec17b13d2870c8f758a126ed"
+  integrity sha512-qHw7dOiU5UKNnQpXktdgQ1d3OFgRAekuvbJLcdG5dnEo/GtcTHRYM7+UfJARdOFU9WUQO8OiIamgWPmiSFHYAA==
 
 nopt@^6.0.0:
   version "6.0.0"
@@ -7414,7 +7545,7 @@ rx-lite@*, rx-lite@^4.0.8:
   resolved "http://npm.fe.flyudesk.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
   integrity sha1-Cx4Rr4vESDbwSmQH6S2kJGe3lEQ=
 
-safe-buffer@5.2.1:
+safe-buffer@5.2.1, safe-buffer@^5.0.1:
   version "5.2.1"
   resolved "http://npm.fe.flyudesk.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha1-Hq+fqb2x/dTsdfWPnNtOa3gn7sY=

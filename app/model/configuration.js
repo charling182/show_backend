@@ -28,6 +28,10 @@ module.exports = app => {
         allowNull: false,
         type: app.Sequelize.DATE,
       },
+      deleted_at: {
+        allowNull: true,
+        type: app.Sequelize.DATE,
+      },
     },
     {
       sequelize: app.model,

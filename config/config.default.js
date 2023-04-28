@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 module.exports = appInfo => {
   const config = exports = {};
 
@@ -8,7 +10,7 @@ module.exports = appInfo => {
 
   // add your config here
   config.middleware = [];
-
+  // swaggerdoc config
   config.swaggerdoc = {
     dirScanner: './app/controller',
     apiInfo: {
@@ -22,6 +24,31 @@ module.exports = appInfo => {
     enableSecurity: false,
     routerMap: true,
     enable: true,
+  };
+
+  // jwt config
+  config.jwt = {
+    secret: 'memory',
+    ignore: [ '/backend/login', '/backend/register', '/backend/logout', '/backend/configuration/public_key' ], //登录,注册,登出不需要验证
+    expiresIn: '1d',
+    tokenName: 'Authorization',
+    tokenType: 'Bearer',
+  };
+
+  // mail config
+  config.mailer = {
+    host: 'smtp.qq.com',
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      user: '1650070770@qq.com', // generated ethereal user
+      pass: 'bbevjsggjbuwhaai', // generated ethereal password
+    },
+  };
+
+  config.static = {
+    prefix: '/public/',
+    dir: path.join(appInfo.baseDir, '/public'),
   };
 
   // change to your own sequelize configurations

@@ -21,11 +21,6 @@ const body = {
       example: 'Imfdj',
       description: '用户名',
     },
-    user_id_github: {
-      type: 'number',
-      required: false,
-      description: 'github用户ID',
-    },
     nickname: {
       type: 'string',
       required: false,
