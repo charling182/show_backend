@@ -4,6 +4,72 @@ const body = {
   userId: {
     id: { type: 'number', required: true, description: 'id' },
   },
+  loginPostBodyReq: {
+    username: {
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maximum: 60,
+      trim: true,
+      example: 'charling',
+      description: '用户名',
+    },
+    password: {
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maximum: 60,
+      trim: true,
+      example: '123123',
+      description: '用户密码',
+    },
+  },
+  registerPostBodyReq: {
+    username: {
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maximum: 60,
+      trim: true,
+      example: 'charling',
+      description: '用户名',
+    },
+    email: {
+      type: 'string',
+      required: true,
+      max: 60,
+      trim: true,
+      format: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+      example: '1@qq.com',
+      description: '邮箱',
+    },
+    code: {
+      type: 'string',
+      required: true,
+      max: 60,
+      trim: true,
+      example: '000000',
+      description: '验证码',
+    },
+    password: {
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maximum: 60,
+      trim: true,
+      example: '123123',
+      description: '用户密码',
+    },
+    confirm_password: {
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maximum: 60,
+      trim: true,
+      example: '123123',
+      description: '二次确认密码',
+    },
+  },
   userBodyReq: {
     department_id: {
       type: 'number',
@@ -15,10 +81,10 @@ const body = {
     username: {
       type: 'string',
       required: true,
-      min: 2,
-      max: 60,
+      minLength: 2,
+      maximum: 60,
       trim: true,
-      example: 'Imfdj',
+      example: 'charling',
       description: '用户名',
     },
     nickname: {
@@ -33,15 +99,15 @@ const body = {
     password: {
       type: 'string',
       required: true,
-      min: 6,
-      max: 30,
+      minLength: 2,
+      maximum: 60,
       trim: true,
       example: '123123',
       description: '用户密码',
     },
     email: {
       type: 'string',
-      required: true,
+      required: false,
       max: 60,
       trim: true,
       format: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
@@ -97,12 +163,6 @@ module.exports = {
   },
   userCreateBodyReq: {
     ...body.userBodyReq,
-    verification_type: {
-      type: 'number',
-      example: 1,
-      required: true,
-      description: '验证方式；1.邮箱。2.手机号。',
-    },
     code: {
       type: 'string',
       required: true,
@@ -127,6 +187,15 @@ module.exports = {
       example: '000000',
       description: '验证码',
     },
+    confirm_password: {
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maximum: 60,
+      trim: true,
+      example: '123123',
+      description: '二次确认密码',
+    },
   },
   updateUserDepartmentBodyReq: {
     ...body.userId,
@@ -141,4 +210,6 @@ module.exports = {
       example: [ 1, 2 ],
     },
   },
+  loginPostBodyReq: body.loginPostBodyReq,
+  registerPostBodyReq: body.registerPostBodyReq,
 };

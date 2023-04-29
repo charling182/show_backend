@@ -1,7 +1,7 @@
 'use strict';
 // const lodash = require('lodash');
 // const { v4: uuidv4 } = require('uuid');
-// const dayjs = require('dayjs');
+const dayjs = require('dayjs');
 // const path = require('path');
 // const fs = require('fs');
 // const { permissionsToRedis } = require('./app-boot-hook-do');
@@ -57,7 +57,7 @@ class AppBootHook {
     // };
     // this.app.lodash = lodash;
     // this.app.uuidv4 = uuidv4;
-    // this.app.dayjs = dayjs;
+    this.app.dayjs = dayjs;
     // console.log('willReady');
     // console.time('willReady');
     // const { Sequelize } = this.app.model;

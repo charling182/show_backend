@@ -8,8 +8,9 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_{{keys}}';
 
-  // add your config here
-  config.middleware = [];
+  // add your middleware config here
+  config.middleware = [ 'jurisdictionHandler' ];
+
   // swaggerdoc config
   config.swaggerdoc = {
     dirScanner: './app/controller',
@@ -22,16 +23,16 @@ module.exports = appInfo => {
     consumes: [ 'application/json' ],
     produces: [ 'application/json' ],
     enableSecurity: false,
-    routerMap: true,
+    routerMap: false, // (实验功能)注释中有@router时,一旦开启会自行生成路由表,而且会覆盖写好的路由表,此时接口类型以注释为主
     enable: true,
   };
 
   // jwt config
   config.jwt = {
     secret: 'memory',
-    ignore: [ '/backend/login', '/backend/register', '/backend/logout', '/backend/configuration/public_key' ], //登录,注册,登出不需要验证
+    ignore: [ '/backend/user/login', '/backend/user/register', '/backend/user/logout', '/backend/configuration/public_key', '/backend/verification_code', '/backend/user/password' ], //登录,注册,登出不需要验证
     expiresIn: '1d',
-    tokenName: 'Authorization',
+    tokenName: 'authorization',
     tokenType: 'Bearer',
   };
 
@@ -51,16 +52,23 @@ module.exports = appInfo => {
     dir: path.join(appInfo.baseDir, '/public'),
   };
 
-  // change to your own sequelize configurations
-  // config.sequelize = {
-  //   dialect: 'mysql',
-  //   host: 'localhost',
-  //   port: 3306,
-  //   database: 'egg-sequelize-default',
-  //   username: 'root',
-  //   password: '',
-  // };
+  // add your user config here
+  const userConfig = {
+    // myAppName: 'egg',
+    verification_mode: 'jwt',
+    jwt_exp: 60 * 10, // jwt过期时间(秒)
+    jwt_refresh_exp: 60 * 60 * 24, // refreshToken过期时间(秒)
+    socketOnlineUserRoomName: 'onlineUserRoom:', // socket所有在线用户房间名
+    socketProjectRoomNamePrefix: 'roomProject:', // socket项目房间名前缀
+    socketRedisExp: 30, // socket消息存入redis过期时间(秒)
+    staticUseOSS: false, // 上传静态文件，使用云OSS存储
+    inviteExpiresRange: 7 * 24 * 60, // 邀请有效时间（分钟）
+    inviteExpiresCreateRange: 3 * 24 * 60, // 邀请有效时间更新时间，获取某个邀请时，如有效时间小于此时间，则创建一个新的邀请（分钟）
+  };
 
 
-  return config;
+  return {
+    ...config,
+    ...userConfig,
+  };
 };

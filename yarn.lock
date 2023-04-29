@@ -2662,6 +2662,11 @@ data-uri-to-buffer@3:
   resolved "http://npm.fe.flyudesk.com/data-uri-to-buffer/-/data-uri-to-buffer-3.0.1.tgz#594b8973938c5bc2c33046535785341abc4f3636"
   integrity sha1-WUuJc5OMW8LDMEZTV4U0GrxPNjY=
 
+dayjs@^1.11.7:
+  version "1.11.7"
+  resolved "http://npm.fe.flyudesk.com/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
+  integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
+
 debounce@^1.1.0:
   version "1.2.1"
   resolved "http://npm.fe.flyudesk.com/debounce/-/debounce-1.2.1.tgz#38881d8f4166a5c5848020c11827b834bcb3e0a5"

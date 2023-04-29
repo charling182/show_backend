@@ -37,7 +37,7 @@ module.exports = app => {
       state: {
         type: app.Sequelize.TINYINT,
         allowNull: false,
-        defaultValue: '0',
+        defaultValue: 1,
         comment: '状态：0.停用、1.正常',
       },
       phone: {
@@ -84,9 +84,9 @@ module.exports = app => {
     {
       sequelize: app.model,
       tableName: 'user',
-      timestamps: true,
-      underscored: true,
-      paranoid: true,
+      timestamps: true, // 开启时间戳
+      underscored: true, // 开启下划线
+      paranoid: true, // 软删除
       charset: 'utf8mb4',
       collate: 'utf8mb4_unicode_ci',
       scopes: {

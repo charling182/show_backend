@@ -124,6 +124,8 @@ module.exports.tools = {
     return !param && param !== 0;
   },
 
+
+  // 要注意limit和offset的值，get请求的参数是字符串,需要转换成数字
   /**
    * findAll请求根据rule处理query值
    * @param rule 规则
@@ -152,12 +154,12 @@ module.exports.tools = {
       prop_order: {
         type: 'enum',
         required: false,
-        values: [...Object.keys(_rule), ''],
+        values: [ ...Object.keys(_rule), '' ],
       },
       order: {
         type: 'enum',
         required: false,
-        values: ['desc', 'asc', ''],
+        values: [ 'desc', 'asc', '' ],
       },
       limit: {
         type: 'number',
@@ -189,6 +191,9 @@ module.exports.tools = {
       query.where[Op.or] = [];
       for (const queryKey in _rule) {
         // 非模糊搜索排除字段的所有rule中的字段, 且数据类型为string，做模糊查询
+        // [Op.or]：表示查询条件是一个 OR 条件，即符合任意一个条件即可。
+        // queryOrigin.keyword.trim() 表示要查询的关键字，使用 trim() 方法去除首尾空格
+        // Op.like 表示匹配一个包含指定字符串的数据，使用 % 包裹要匹配的字符串表示模糊匹配。
         if (!keywordLikeExcludeParams.includes(queryKey) && _rule[queryKey].type === 'string') {
           query.where[Op.or].push({ [queryKey]: { [Op.like]: `%${queryOrigin.keyword.trim()}%` } });
         }
@@ -204,7 +209,7 @@ module.exports.tools = {
 
 module.exports.body = {
   // [GET]：服务器成功返回用户请求的数据
-  SUCCESS({ ctx, res = null, msg = '请求成功', code = 0 }) {
+  SUCCESS({ ctx, res = null, msg = '请求成功', code = 200 }) {
     ctx.body = {
       code,
       data: res,
@@ -216,7 +221,7 @@ module.exports.body = {
   // [POST/PUT/PATCH]：用户新建或修改数据成功。
   CREATED_UPDATE({ ctx, res = null, msg = '新建或修改数据成功' }) {
     ctx.body = {
-      code: 0,
+      code: 200,
       data: res,
       msg,
     };
@@ -228,7 +233,7 @@ module.exports.body = {
    */
   NO_CONTENT({ ctx, res = null, msg = '删除数据成功' }) {
     ctx.body = {
-      code: 0,
+      code: 200,
       data: res,
       msg,
     };

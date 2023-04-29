@@ -34,20 +34,20 @@ class UserService extends Service {
       offset,
       where,
       order: Order,
-      attributes: { exclude: ['password', 'deleted_at'] },
+      attributes: { exclude: [ 'password', 'deleted_at' ] },
       include: [
         {
           model: ctx.model.Projects,
-          attributes: ['id'],
+          attributes: [ 'id' ],
           where: project_where,
         },
         {
           model: ctx.model.Roles,
-          attributes: ['id', 'name'],
+          attributes: [ 'id', 'name' ],
         },
         {
           model: ctx.model.Departments,
-          attributes: ['id', 'name'],
+          attributes: [ 'id', 'name' ],
           as: 'department',
         },
       ],
@@ -55,30 +55,32 @@ class UserService extends Service {
     });
   }
 
-  async findOne(id) {
-    const { ctx } = this;
-    return await ctx.model.Users.findOne({
-      where: { id },
-      attributes: { exclude: ['password', 'deleted_at'] },
-      include: [
-        {
-          model: ctx.model.Departments,
-          attributes: ['id', 'name'],
-          as: 'department',
-        },
-      ],
-    });
-  }
-
+  // async findOne(id) {
+  //   const { ctx } = this;
+  //   return await ctx.model.Users.findOne({
+  //     where: { id },
+  //     attributes: { exclude: ['password', 'deleted_at'] },
+  //     include: [
+  //       {
+  //         model: ctx.model.Departments,
+  //         attributes: ['id', 'name'],
+  //         as: 'department',
+  //       },
+  //     ],
+  //   });
+  // }
+  /**
+   *  创建用户
+   */
   async create(payload) {
     const { ctx, app } = this;
-    const { verification_type, phone, email, code, username } = payload;
+    const { email, code, username } = payload;
     const current_time = app.dayjs()
       .format('YYYY-MM-DD hh:mm:ss');
     // 验证码 验证
-    const res = await ctx.model.VerificationCodes.findOne({
+    const res = await ctx.model.VerificationCode.findOne({
       where: {
-        target: verification_type === 1 ? email : phone,
+        target: email,
         code,
         available: 1,
         expiration_time: { [Op.gt]: current_time },
@@ -101,31 +103,22 @@ class UserService extends Service {
       }
       payload = Object.assign(payload, await ctx.helper.tools.saltPassword(payload.password));
       payload.password += payload.salt;
-      const transaction = await ctx.model.transaction();
+      // 此处执行多个操作，需要使用事务
       try {
-        const res_user = await ctx.model.Users.create(payload, { transaction });
-        const defaultRole = await ctx.model.Roles.findOne({ where: { is_default: 1 } });
-        // 分配 默认角色
-        await ctx.model.UserRoles.create(
-          {
-            user_id: res_user.id,
-            role_id: defaultRole.id,
-          },
-          { transaction }
-        );
+        const res_user = await ctx.model.User.create(payload);
         // 所有相应验证码状态都变更为false
-        await ctx.model.VerificationCodes.update(
+        await ctx.model.VerificationCode.update(
           { available: 0 },
           {
-            where: { target: verification_type === 1 ? email : phone },
-          },
-          { transaction }
+            where: { target: email },
+          }
         );
-        await transaction.commit();
         return res_user;
       } catch (e) {
-        await transaction.rollback();
-        app.logger.errorAndSentry(e);
+        return {
+          __code_wrong: 40003,
+          message: '用户创建失败',
+        };
       }
     }
     return {
@@ -144,7 +137,15 @@ class UserService extends Service {
 
   async destroy(payload) {
     const { ctx } = this;
-    return await ctx.model.Users.destroy({ where: { id: payload.ids } });
+    // 不允许删除id为1的超级管理员用户
+    if (payload.ids.includes(1)) {
+      return {
+        __code_wrong: 40005,
+        message: '不允许删除超级管理员用户',
+      };
+    }
+    // user表开启了软删除
+    return await ctx.model.User.destroy({ where: { id: payload.ids } });
   }
 
   async login(payload) {
@@ -158,23 +159,16 @@ class UserService extends Service {
         __code_wrong: 40004,
       };
     }
-    payload = Object.assign(payload, await ctx.helper.tools.saltPassword(payload.password, user.dataValues.password.substr(32)));
-    payload.password += payload.salt;
-    const result = await ctx.model.User.findOne({
-      // include: [
-      //   {
-      //     model: ctx.model.Roles,
-      //   },
-      // ],
-      where: { username: payload.username, password: payload.password },
-    });
-    if (!result) {
-      return {
-        __code_wrong: 40000,
-      };
+    // user.dataValues 是 Sequelize 中一个实例对象的属性，用于表示该对象的所有属性和值，
+    // 于一个 User 实例对象，它可能包含 id、username、password 等属性，对应的值也可以通过 dataValues 属性进行访问，如 user.dataValues.id
+    const passwordData = Object.assign(payload, await ctx.helper.tools.saltPassword(payload.password, user.dataValues.password.substr(32)));
+    passwordData.password += passwordData.salt;
+    if (passwordData.password === user.dataValues.password) {
+      return await this.loginDeal(ctx, user);
     }
-    return result;
-    // return await this.loginDeal(ctx, result);
+    return {
+      __code_wrong: 40000,
+    };
   }
 
   /**
@@ -183,30 +177,36 @@ class UserService extends Service {
    */
   async userInfo() {
     const { ctx, app } = this;
-    const res = await ctx.model.Users.findOne({
-      include: [
-        {
-          model: ctx.model.Roles,
-          include: [
-            {
-              model: ctx.model.Permissions,
-              attributes: ['id', 'url', 'action'],
-            },
-          ],
-        },
-      ],
+
+    // const res = await ctx.model.User.findOne({
+    //   include: [
+    //     {
+    //       model: ctx.model.Roles,
+    //       include: [
+    //         {
+    //           model: ctx.model.Permissions,
+    //           attributes: [ 'id', 'url', 'action' ],
+    //         },
+    //       ],
+    //     },
+    //   ],
+    //   where: { id: ctx.currentRequestData.userInfo.id },
+    //   attributes: { exclude: ['password', 'deleted_at'] },
+    // });
+    // let arr = [];
+    // res.roles.forEach(e => {
+    //   e.permissions.forEach(ee => {
+    //     arr.push(ee);
+    //   });
+    // });
+    // arr = app.lodash.uniqWith(arr, (a, b) => a.id === b.id);
+    // arr = arr.map(permission => `${permission.action}:${permission.url}`);
+    // res.dataValues.permissions = arr || [];
+    // jwt令牌中的信息在中间件的时候挂载到了ctx.currentRequestData.userInfo上
+    const res = await ctx.model.User.findOne({
       where: { id: ctx.currentRequestData.userInfo.id },
-      attributes: { exclude: ['password', 'deleted_at'] },
+      attributes: { exclude: [ 'password', 'deleted_at' ] },
     });
-    let arr = [];
-    res.roles.forEach(e => {
-      e.permissions.forEach(ee => {
-        arr.push(ee);
-      });
-    });
-    arr = app.lodash.uniqWith(arr, (a, b) => a.id === b.id);
-    arr = arr.map(permission => `${permission.action}:${permission.url}`);
-    res.dataValues.permissions = arr || [];
     return res;
   }
 
@@ -215,16 +215,15 @@ class UserService extends Service {
    */
   async existsUserUniqueFields(payload) {
     const { ctx } = this;
-    const { username, nickname, email, phone } = payload;
+    const { username, nickname, email } = payload;
     const where = {};
     where[Op.or] = [];
     username ? where[Op.or].push({ username }) : null;
     nickname ? where[Op.or].push({ nickname }) : null;
     email ? where[Op.or].push({ email }) : null;
-    phone ? where[Op.or].push({ phone }) : null;
-    return await ctx.model.Users.findOne({
+    return await ctx.model.User.findOne({
       where,
-      attributes: { exclude: ['password', 'deleted_at'] },
+      attributes: { exclude: [ 'password', 'deleted_at' ] },
     });
   }
 
@@ -234,7 +233,10 @@ class UserService extends Service {
   async updateUserPassword(payload) {
     const { ctx, app } = this;
     const { password, email, code } = payload;
-    const user = await ctx.model.Users.findOne({
+    // 在启用软删除功能后，查询数据时，Sequelize 会自动将软删除的数据过滤掉，除非显式地指定查询包括软删除的数据。
+    // 通过设置 paranoid 属性为 false，可以查询到软删除的数据
+    // const result2 = await User.findOne({ where: { name: 'Alice' }, paranoid: false });
+    const user = await ctx.model.User.findOne({
       where: {
         email,
       },
@@ -243,7 +245,7 @@ class UserService extends Service {
       const current_time = app.dayjs()
         .format('YYYY-MM-DD hh:mm:ss');
       // 验证码 验证
-      const verificationCode = await ctx.model.VerificationCodes.findOne({
+      const verificationCode = await ctx.model.VerificationCode.findOne({
         where: {
           target: email,
           code,
@@ -254,7 +256,7 @@ class UserService extends Service {
       if (verificationCode) {
         const password_new = await ctx.helper.tools.saltPassword(password);
         password_new.password += password_new.salt;
-        const res = await ctx.model.Users.update(
+        const res = await ctx.model.User.update(
           { password: password_new.password },
           {
             where: {
@@ -263,7 +265,7 @@ class UserService extends Service {
           }
         );
         // 所有相应验证码状态都变更为false
-        await ctx.model.VerificationCodes.update(
+        await ctx.model.VerificationCode.update(
           { available: 0 },
           {
             where: { target: email },
@@ -286,9 +288,10 @@ class UserService extends Service {
    * 登出
    */
   async logout() {
-    const { ctx, app } = this;
-    const accessToken = ctx.request.headers.authorization && ctx.request.headers.authorization.split('Bearer ')[1];
-    return await app.redis.setex(accessToken, app.config.jwt_exp, '1');
+    // const { ctx, app } = this;
+    // const accessToken = ctx.request.headers.authorization && ctx.request.headers.authorization.split('Bearer ')[1];
+    // return await app.redis.setex(accessToken, app.config.jwt_exp, '1');
+    return 'ok';
   }
 
   /**
@@ -414,28 +417,25 @@ class UserService extends Service {
    */
   async loginDeal(ctx, user) {
     const { app } = ctx;
+    // 账号是否被停用
     if (user.state !== 1) {
       return {
         __code_wrong: 40005,
       };
     }
+    // 更新最后登录时间,update是sequelize实例的方法,更新登录时间
     user.update({
       last_login: app.dayjs()
         .format('YYYY-MM-DD HH:mm:ss'),
     });
+    // currentRequestData的内容就是jwt令牌中的信息,中间件中解码的时候就能看到
     const currentRequestData = { userInfo: { id: user.id, username: user.username } };
-    // 如果验证方式是jwt，否则为session
-    if (app.config.verification_mode === 'jwt') {
-      return user
-        ? {
-          accessToken: await ctx.helper.tools.apply(ctx, currentRequestData, app.config.jwt_exp),
-          refreshToken: await ctx.helper.tools.apply(ctx, currentRequestData, app.config.jwt_refresh_exp, app.config.jwt.secret_refresh),
-          csrf: ctx.csrf,
-        }
-        : null;
-    }
-    ctx.session.currentRequestData = currentRequestData;
-    return user ? {} : null;
+    return user
+      ? {
+        accessToken: await ctx.helper.tools.apply(ctx, currentRequestData, app.config.jwt_exp),
+        refreshToken: await ctx.helper.tools.apply(ctx, currentRequestData, app.config.jwt_refresh_exp, app.config.jwt.secret_refresh),
+      }
+      : null;
   }
 }
 

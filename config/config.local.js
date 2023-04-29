@@ -1,5 +1,12 @@
 'use strict';
 
+// 不开启csrf(跨站攻击)防御,每次请求生成一次太费性能
+exports.security = {
+  csrf: {
+    enable: false,
+  },
+};
+
 exports.sequelize = {
   dialect: 'mysql',
   host: '127.0.0.1',

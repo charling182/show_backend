@@ -24,7 +24,7 @@ class UserController extends Controller {
    * @summary 登录
    * @description 登录
    * @router post /backend/user/login
-   * @request body userBodyReq
+   * @request body loginPostBodyReq
    */
   async login() {
     const { ctx, service, app } = this;
@@ -42,30 +42,16 @@ class UserController extends Controller {
     };
     ctx.validate(beforeParams, ctx.request.body);
 
-    const { rsa_private_key } = await ctx.model.Configuration.findOne({
-      where: { id: 1 },
-    });
-    const key = new NodeRSA(rsa_private_key);
-    ctx.request.body.password = key.decrypt(ctx.request.body.password, 'utf8');
-    // 如果不是开发环境 获取配置中的rsa私钥对密码解密
-    const code = Math.random()
-      .toString()
-      .substring(2, 8);
-    app.mailer.send({
-      from: '"Charling" <1650070770@qq.com>', // sender address, [options] default to user
-      // // Array => ['bar@example.com', 'baz@example.com']
-      to: [ '18515481949@163.com' ], // list of receivers
-      subject: 'Charling验证码邮件', // Subject line
-      text: code, // plain text body
-      html: `<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;
-                  width: 300px;height: 300px;box-shadow: 0px 0px 10px #ccc;border-radius: 30px;margin: 66px auto;">
-                <img width="100" src="/public/image/charling.png" alt="">
-                <span style="line-height: 36px;">来自 Charling 的邮箱验证码：</span>
-                <div style="font-weight: 600;font-size: 22px;line-height: 46px;">${code}</div>
-              </div>`, // html body
-    });
+    try {
+      const { rsa_private_key } = await ctx.model.Configuration.findOne({
+        where: { id: 1 },
+      });
+      const key = new NodeRSA(rsa_private_key);
+      ctx.request.body.password = key.decrypt(ctx.request.body.password, 'utf8');
+    } catch (e) {
+      ctx.helper.body.UNAUTHORIZED({ ctx });
+    }
     ctx.validate(params, ctx.request.body);
-    console.log('查看密码---------', ctx.request.body);
     const res = await service.user.login(ctx.request.body);
     switch (res.__code_wrong) {
       case undefined:
@@ -93,6 +79,101 @@ class UserController extends Controller {
         break;
     }
   }
+  /**
+   * @summary 登出
+   * @description 登出
+   * @router get /backend/user/logout
+   */
+  async logout() {
+    const { ctx, service } = this;
+    await service.user.logout();
+    ctx.helper.body.SUCCESS({ ctx });
+  }
+  /**
+   * @summary 注册用户
+   * @description 注册用户
+   * @router post /backend/user/register
+   * @request body registerPostBodyReq
+   */
+  async register() {
+    const { ctx } = this;
+    ctx.validate(ctx.rule.registerPostBodyReq, ctx.request.body);
+    // 二次密码校验
+    if (ctx.request.body.password !== ctx.request.body.confirm_password) {
+      ctx.helper.body.INVALID_REQUEST({ ctx, code: 40000, msg: '两次密码不一致' });
+    }
+    // 删除body中的confirm_password
+    delete ctx.request.body.confirm_password;
+    // 解密密码
+    const { rsa_private_key } = await ctx.model.Configuration.findOne({
+      where: { id: 1 },
+    });
+    const key = new NodeRSA(rsa_private_key);
+    ctx.request.body.password = key.decrypt(ctx.request.body.password, 'utf8');
+    // 调用service
+    const res = await ctx.service.user.create(ctx.request.body);
+    if (!res.__code_wrong) {
+      ctx.helper.body.CREATED_UPDATE({ ctx });
+    } else {
+      ctx.helper.body.INVALID_REQUEST({ ctx, code: res.__code_wrong, msg: res.message });
+    }
+  }
+
+  /**
+   * @apikey
+   * @summary 批量删除 用户
+   * @description 批量删除 用户
+   * @router delete /backend/user/delete
+   * @request body userDelBodyReq
+   */
+  async destroy() {
+    const { ctx, service } = this;
+    ctx.validate(ctx.rule.userDelBodyReq, ctx.request.body);
+    const res = await service.user.destroy(ctx.request.body);
+    res ? ctx.helper.body.NO_CONTENT({ ctx }) : ctx.helper.body.NOT_FOUND({ ctx });
+  }
+
+  /**
+   * @summary 修改 用户密码
+   * @description 修改 用户密码
+   * @router put /backend/user/password
+   * @request body userUpdatePasswordBodyReq
+   */
+  async updateUserPassword() {
+    const { ctx, service } = this;
+    ctx.validate(ctx.rule.userUpdatePasswordBodyReq, ctx.request.body);
+    // 二次密码校验
+    if (ctx.request.body.password !== ctx.request.body.confirm_password) {
+      ctx.helper.body.INVALID_REQUEST({ ctx, code: 40000, msg: '两次密码不一致' });
+    }
+    // 删除body中的confirm_password
+    delete ctx.request.body.confirm_password;
+    // 解密密码
+    const { rsa_private_key } = await ctx.model.Configuration.findOne({
+      where: { id: 1 },
+    });
+    const key = new NodeRSA(rsa_private_key);
+    ctx.request.body.password = key.decrypt(ctx.request.body.password, 'utf8');
+    const res = await service.user.updateUserPassword(ctx.request.body);
+    if (!res.__code_wrong) {
+      ctx.helper.body.SUCCESS({ ctx });
+    } else {
+      ctx.helper.body.INVALID_REQUEST({ ctx, code: res.__code_wrong, msg: res.message });
+    }
+  }
+
+  /**
+   * @apikey
+   * @summary 获取 用户信息
+   * @description 获取 用户信息
+   * @router get /backend/user/user_info
+   */
+  async userInfo() {
+    const { ctx, service } = this;
+    const res = await service.user.userInfo();
+    res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+  }
+
 }
 
 module.exports = UserController;

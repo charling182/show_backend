@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
+    "dayjs": "^1.11.7",
     "egg": "^2.10.0",
     "egg-jwt": "^3.1.7",
     "egg-mailer": "^1.5.0",
