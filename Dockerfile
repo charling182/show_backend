@@ -2,9 +2,9 @@
 
 FROM node:16.18-slim
 
-RUN mkdir /root/egg-beehive
+RUN mkdir /root/egg-charling
 
-WORKDIR /root/egg-beehive
+WORKDIR /root/egg-charling
 
 COPY . .
 
