@@ -5,22 +5,26 @@
     "database": "egg_charling_dev",
     "host": "127.0.0.1",
     "port": "33066",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "seederStorage": "sequelize",
+    "seederStorageTableName": "seeder_tables"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
-    "port": "33066",
+    "port": "3306",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "port": "33066",
-    "dialect": "mysql"
+    "password": "forever",
+    "database": "egg_charling_pro",
+    "host": "123.249.3.134",
+    "port": "3306",
+    "dialect": "mysql",
+    "seederStorage": "sequelize",
+    "seederStorageTableName": "seeder_tables"
   }
 }
