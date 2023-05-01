@@ -4,7 +4,7 @@ metadata:
   name: backend-deployment
   namespace: default
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: backend-app
@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: 18515481949/backend-docker
+        image: 18515481949/backend-image:latest
         ports:
         - containerPort: 7001
