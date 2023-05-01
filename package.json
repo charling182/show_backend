@@ -33,7 +33,7 @@
   },
   "scripts": {
     "dev": "node create_tables_and_data.js && egg-bin dev --sticky",
-    "start": "egg-scripts start --sticky --daemon --port 7001 --title=egg-server-egg-charling",
+    "start": "egg-scripts start --sticky --port 7001 --title=egg-server-egg-charling",
     "autod": "autod",
     "lint": "eslint .",
     "test": "egg-bin test",
