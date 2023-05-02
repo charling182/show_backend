@@ -70,6 +70,43 @@ const body = {
       description: '二次确认密码',
     },
   },
+  userPutBodyReq: {
+    id: { type: 'number', required: true, description: 'id' },
+    department_id: {
+      type: 'number',
+      required: false,
+      min: 0,
+      example: 0,
+      description: '部门ID',
+    },
+    nickname: {
+      type: 'string',
+      required: true,
+      min: 2,
+      max: 3,
+      trim: true,
+      example: 'dj',
+      description: '昵称',
+    },
+    phone: {
+      type: 'string',
+      required: false,
+      min: 11,
+      max: 15,
+      example: '18836366969',
+      description: '手机号',
+    },
+    company: {
+      type: 'string',
+      required: false,
+      description: '国家',
+    },
+    city: {
+      type: 'string',
+      required: false,
+      description: '城市',
+    },
+  },
   userBodyReq: {
     department_id: {
       type: 'number',
@@ -158,8 +195,7 @@ const body = {
 module.exports = {
   ...body,
   userPutBodyReq: {
-    ...body.userId,
-    ...body.userBodyReq,
+    ...body.userPutBodyReq,
   },
   userCreateBodyReq: {
     ...body.userBodyReq,

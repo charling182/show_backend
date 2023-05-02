@@ -9,7 +9,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_{{keys}}';
 
   // add your middleware config here
-  config.middleware = [ 'jurisdictionHandler' ];
+  config.middleware = [ 'jurisdictionHandler', 'errorHandler' ];
 
   // swaggerdoc config
   config.swaggerdoc = {
@@ -22,9 +22,17 @@ module.exports = appInfo => {
     schemes: [ 'http', 'https' ],
     consumes: [ 'application/json' ],
     produces: [ 'application/json' ],
-    enableSecurity: false,
+    enableSecurity: true, 
     routerMap: false, // (实验功能)注释中有@router时,一旦开启会自行生成路由表,而且会覆盖写好的路由表,此时接口类型以注释为主
     enable: true,
+    securityDefinitions: {
+      Bearer: {
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'header',
+      },
+    },
+    security: [{ Bearer: [] }],
   };
 
   // jwt config
@@ -56,7 +64,7 @@ module.exports = appInfo => {
   const userConfig = {
     // myAppName: 'egg',
     verification_mode: 'jwt',
-    jwt_exp: 60 * 10, // jwt过期时间(秒)
+    jwt_exp: 60 * 60 * 24, // jwt过期时间(秒)
     jwt_refresh_exp: 60 * 60 * 24, // refreshToken过期时间(秒)
     socketOnlineUserRoomName: 'onlineUserRoom:', // socket所有在线用户房间名
     socketProjectRoomNamePrefix: 'roomProject:', // socket项目房间名前缀

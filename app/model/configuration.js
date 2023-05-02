@@ -20,16 +20,16 @@ module.exports = app => {
         type: app.Sequelize.TEXT,
         allowNull: false,
       },
+      deleted_at: {
+        allowNull: false,
+        type: app.Sequelize.DATE,
+      },
       created_at: {
         allowNull: false,
         type: app.Sequelize.DATE,
       },
       updated_at: {
         allowNull: false,
-        type: app.Sequelize.DATE,
-      },
-      deleted_at: {
-        allowNull: true,
         type: app.Sequelize.DATE,
       },
     },

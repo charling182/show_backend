@@ -29,22 +29,22 @@ class UserService extends Service {
     } else {
       where[Op.and] = [{ id: { [Op.ne]: 1 } }];
     }
-    return await ctx.model.Users.findAndCountAll({
+    return await ctx.model.User.findAndCountAll({
       limit,
       offset,
       where,
       order: Order,
       attributes: { exclude: [ 'password', 'deleted_at' ] },
       include: [
-        {
-          model: ctx.model.Projects,
-          attributes: [ 'id' ],
-          where: project_where,
-        },
-        {
-          model: ctx.model.Roles,
-          attributes: [ 'id', 'name' ],
-        },
+        // {
+        //   model: ctx.model.Projects,
+        //   attributes: [ 'id' ],
+        //   where: project_where,
+        // },
+        // {
+        //   model: ctx.model.Roles,
+        //   attributes: [ 'id', 'name' ],
+        // },
         {
           model: ctx.model.Departments,
           attributes: [ 'id', 'name' ],
@@ -129,10 +129,7 @@ class UserService extends Service {
 
   async update(payload) {
     const { ctx } = this;
-    // 用户的email和username不可修改
-    delete payload.email;
-    delete payload.username;
-    return await ctx.model.Users.update(payload, { where: { id: payload.id } });
+    return await ctx.model.User.update(payload, { where: { id: payload.id } });
   }
 
   async destroy(payload) {

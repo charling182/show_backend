@@ -15,6 +15,8 @@ module.exports = app => {
   router.delete('/backend/user/delete', controller.user.destroy);
   router.put('/backend/user/password', controller.user.updateUserPassword);
   router.get('/backend/user/user_info', controller.user.userInfo);
+  router.put('/backend/user', controller.user.update);
+  router.get('/backend/user/list', controller.user.findAll);
 
   /**
    * 验证码
@@ -25,4 +27,14 @@ module.exports = app => {
   router.put('/backend/verification_code', controller.verificationCode.update);
   router.delete('/backend/verification_code', controller.verificationCode.destroy);
   router.get('/backend/verification_code/verification', controller.verificationCode.verification);
+
+  /**
+   * 部门
+   */
+  router.post('/backend/departments', controller.departments.create);
+  router.put('/backend/departments', controller.departments.update);
+  router.get('/backend/departments/list', controller.departments.findAll);
+  router.get('/backend/departments', controller.departments.findOne);
+  router.delete('/backend/departments', controller.departments.destroy);
+
 };

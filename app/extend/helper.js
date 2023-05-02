@@ -135,7 +135,7 @@ module.exports.tools = {
    * @param keywordLikeExcludeParams 关键字keyword模糊搜索排除字段
    * @return {{query: {where: {}}, allRule: {offset: {default: number, type: string, required: boolean}, prop_order: {values, type: string, required: boolean}, limit: {type: string, required: boolean}, order: {values: [string, string, string], type: string, required: boolean}}}}
    */
-  findAllParamsDeal(options) {
+  findAllParamsDeal(options, requestType) {
     const { rule, queryOrigin, ruleOther = {}, findAllParamsOther = {}, keywordLikeExcludeParams = [] } = options;
     const _rule = lodash.cloneDeep(rule);
     const query = {
@@ -205,6 +205,18 @@ module.exports.tools = {
       query,
     };
   },
+  /**
+   * get请求参数都为字符串,但是校验规则中并不全是字符串，需要转换校验规则防止报错
+   */
+  getRulesTypeTransform(rule) {
+    const _rule = lodash.cloneDeep(rule);
+    for (const ruleKey in _rule) {
+      _rule[ruleKey].type = 'string';
+    }
+    console.log('getRulesTypeTransform--------', _rule);
+    return _rule;
+  }
+
 };
 
 module.exports.body = {

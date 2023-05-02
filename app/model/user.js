@@ -12,10 +12,15 @@ module.exports = app => {
         autoIncrement: true,
         primaryKey: true,
       },
+      department_id: {
+        type: app.Sequelize.INTEGER,
+        allowNull: false,
+        comment: '部门id',
+      },
       username: {
         type: app.Sequelize.STRING(60),
         allowNull: false,
-        unique: true,
+        unique: true, // 唯一
         comment: '用户名',
       },
       nickname: {
@@ -96,6 +101,10 @@ module.exports = app => {
       },
     }
   );
+  User.associate = function() {
+    // 部门和用户是一对多的关系,用户只属于一个部门
+    User.hasOne(app.model.Departments, { foreignKey: 'id', sourceKey: 'department_id', as: 'department' });
+  };
 
   return User;
 };

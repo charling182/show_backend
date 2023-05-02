@@ -9,8 +9,8 @@ const NodeRSA = require('node-rsa');
  */
 class UserController extends Controller {
   /**
-   * @summary 获取用户列表
-   * @description 获取用户列表
+   * @summary 测试接口
+   * @description 测试接口
    * @router get /backend/user
    */
   async index() {
@@ -172,6 +172,111 @@ class UserController extends Controller {
     const { ctx, service } = this;
     const res = await service.user.userInfo();
     res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+  }
+
+  /**
+   * @apikey
+   * @summary 更新 用户
+   * @description 更新 用户
+   * @router put /backend/user
+   * @request body userPutBodyReq
+   */
+  async update() {
+    // try {
+      const { ctx, service } = this;
+      ctx.validate(ctx.rule.userPutBodyReq, ctx.request.body);
+      const res = await service.user.update(ctx.request.body);
+      res && res[0] !== 0 ? ctx.helper.body.CREATED_UPDATE({ ctx }) : ctx.helper.body.NOT_FOUND({ ctx });
+
+    // } catch (e) {
+    //   console.log('e---------', e.name, e.errors);
+    // }
+  }
+  /**
+   * @apikey
+   * @summary 获取 用户
+   * @description 获取 用户
+   * @request query string keyword 用户名/邮箱/手机
+   * @request query string username 用户名
+   * @request query string email 邮箱
+   * @request query string phone 手机
+   * @request query number state 状态
+   * @request query number department_id 部门ID
+   * @request query number limit limit
+   * @request query number offset offset
+   * @router get /backend/user/list
+   */
+  async findAll() {
+    const { ctx, service } = this;
+    const params = {
+      keyword: {
+        type: 'string',
+        trim: true,
+        required: false,
+        max: 50,
+      },
+      username: {
+        ...ctx.rule.userBodyReq.username,
+        required: false,
+        min: 1,
+      },
+      email: {
+        ...ctx.rule.userBodyReq.email,
+        required: false,
+        format: /.*/,
+      },
+      phone: {
+        ...ctx.rule.userBodyReq.phone,
+        required: false,
+        min: 1,
+      },
+      state: {
+        ...ctx.rule.userBodyReq.state,
+        required: false,
+      },
+      department_id: {
+        ...ctx.rule.userBodyReq.department_id,
+        required: false,
+      },
+      date_after_created: {
+        type: 'dateTime',
+        required: false,
+      },
+      project_id: {
+        type: 'number',
+        required: false,
+      },
+      prop_order: {
+        type: 'enum',
+        required: false,
+        values: [...Object.keys(ctx.rule.userPutBodyReq), ''],
+      },
+      order: {
+        type: 'enum',
+        required: false,
+        values: ['desc', 'asc', ''],
+      },
+      limit: {
+        type: 'number',
+        required: false,
+        default: 10,
+        max: 1000,
+      },
+      offset: {
+        type: 'number',
+        required: false,
+        default: 0,
+      },
+    };
+    ctx.query.department_id ? ctx.query.department_id = Number(ctx.query.department_id) : '';
+    ctx.query.project_id ? ctx.query.project_id = Number(ctx.query.project_id) : '';
+    ctx.query.state ? ctx.query.state = Number(ctx.query.state) : '';
+    ctx.query.limit ? ctx.query.limit = Number(ctx.query.limit) : '';
+    ctx.query.offset ? ctx.query.offset = Number(ctx.query.offset) : '';
+
+    ctx.validate(params, ctx.query);
+    const res = await service.user.findAll(ctx.query);
+    ctx.helper.body.SUCCESS({ ctx, res });
   }
 
 }
