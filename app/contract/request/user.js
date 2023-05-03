@@ -81,7 +81,7 @@ const body = {
     },
     nickname: {
       type: 'string',
-      required: true,
+      required: false,
       min: 2,
       max: 3,
       trim: true,
@@ -105,6 +105,14 @@ const body = {
       type: 'string',
       required: false,
       description: '城市',
+    },
+    state: {
+      type: 'number',
+      required: false,
+      example: 1,
+      min: 0,
+      max: 1,
+      description: '状态：0.停用、1.正常',
     },
   },
   userBodyReq: {

@@ -8,7 +8,7 @@ module.exports = app => {
   /**
    * 用户
    */
-  router.get('/backend/user', controller.user.index);
+  // router.get('/backend/user', controller.user.index);
   router.post('/backend/user/login', controller.user.login);
   router.get('/backend/user/logout', controller.user.logout);
   router.post('/backend/user/register', controller.user.register);
@@ -17,6 +17,8 @@ module.exports = app => {
   router.get('/backend/user/user_info', controller.user.userInfo);
   router.put('/backend/user', controller.user.update);
   router.get('/backend/user/list', controller.user.findAll);
+  router.put('/backend/user/department', controller.user.updateUserDepartment);
+  router.get('/backend/user', controller.user.findOne);
 
   /**
    * 验证码
@@ -37,4 +39,20 @@ module.exports = app => {
   router.get('/backend/departments', controller.departments.findOne);
   router.delete('/backend/departments', controller.departments.destroy);
 
+    /**
+   * 角色
+   */
+    router.post('/backend/roles', controller.roles.create);
+    router.put('/backend/roles', controller.roles.update);
+    router.get('/backend/roles/list', controller.roles.index);
+    router.get('/backend/roles', controller.roles.show);
+    router.delete('/backend/roles', controller.roles.destroy);
+    router.put('/backend/roles/is_default', controller.roles.updateIsDefault);
+  
+    /**
+     * 用户角色关系表
+     */
+    router.get('/backend/user_roles/list', controller.userRoles.findAll);
+    router.delete('/backend/user_roles', controller.userRoles.destroy);
+    router.post('/backend/user_roles/bulk_role', controller.userRoles.bulkCreateRole);
 };

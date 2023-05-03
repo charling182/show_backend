@@ -20,7 +20,6 @@ module.exports = (option, app) => {
       console.log('token', token, ctx.request.headers);
       if (!token) return ctx.helper.body.UNAUTHORIZED({ ctx });
       const decoded = await ctx.app.jwt.verify(token, ctx.app.config.jwt.secret);
-      console.log('decoded----------------', decoded);
       ctx.currentRequestData = decoded.data;
       await next();
     } catch (err) {

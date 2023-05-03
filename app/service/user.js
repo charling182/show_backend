@@ -20,7 +20,7 @@ class UserService extends Service {
     email ? (where.email = { [Op.like]: `%${email}%` }) : null;
     phone ? (where.phone = { [Op.like]: `%${phone}%` }) : null;
     !ctx.helper.tools.isParam(state) ? (where.state = state) : null;
-    !ctx.helper.tools.isParam(department_id) ? (where.department_id = department_id === 0 ? null : department_id) : null;
+    !ctx.helper.tools.isParam(department_id) ? (where.department_id =  department_id) : null;
     !ctx.helper.tools.isParam(project_id) ? (project_where = { id: project_id }) : null;
     prop_order && order ? Order.push([prop_order, order]) : null;
     // 不返回id为1的超级管理员用户
@@ -48,27 +48,27 @@ class UserService extends Service {
         {
           model: ctx.model.Departments,
           attributes: [ 'id', 'name' ],
-          as: 'department',
+          as: 'department', // 别名 返回的数据是对象{department: {id: 1, name: 'xxx'}}
         },
       ],
       distinct: true,
     });
   }
 
-  // async findOne(id) {
-  //   const { ctx } = this;
-  //   return await ctx.model.Users.findOne({
-  //     where: { id },
-  //     attributes: { exclude: ['password', 'deleted_at'] },
-  //     include: [
-  //       {
-  //         model: ctx.model.Departments,
-  //         attributes: ['id', 'name'],
-  //         as: 'department',
-  //       },
-  //     ],
-  //   });
-  // }
+  async findOne(id) {
+    const { ctx } = this;
+    return await ctx.model.User.findOne({
+      where: { id },
+      attributes: { exclude: ['password', 'deleted_at'] },
+      include: [
+        {
+          model: ctx.model.Departments,
+          attributes: ['id', 'name'],
+          as: 'department',
+        },
+      ],
+    });
+  }
   /**
    *  创建用户
    */
@@ -298,7 +298,7 @@ class UserService extends Service {
     const { ctx } = this;
     const { id, department_id } = payload;
     //  如果department_id为0则设为null
-    return await ctx.model.Users.update({ department_id: department_id === 0 ? null : department_id }, { where: { id } });
+    return await ctx.model.User.update({ department_id: department_id }, { where: { id } });
   }
 
   /**

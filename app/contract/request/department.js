@@ -8,7 +8,7 @@ const {
   sort,
   ids,
 } = {
-  id: { type: 'number' | 'string', required: true, description: 'id' },
+  id: { type: 'number', required: true, description: 'id' },
   name: {
     type: 'string',
     required: true,

@@ -81,7 +81,7 @@ class DepartmentController extends Controller {
     const { ctx, service } = this;
     ctx.validate(ctx.rule.departmentDelBodyReq, ctx.request.body);
     const res = await service.departments.destroy(ctx.request.body);
-    res ? ctx.helper.body.NO_CONTENT({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+    res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
   }
 }
 

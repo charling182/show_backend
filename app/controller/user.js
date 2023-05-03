@@ -279,6 +279,43 @@ class UserController extends Controller {
     ctx.helper.body.SUCCESS({ ctx, res });
   }
 
+  /**
+   * @apikey
+   * @summary 修改 用户所属部门
+   * @description 修改 用户所属部门
+   * @router put /backend/user/department
+   * @request body updateUserDepartmentBodyReq
+   */
+  async updateUserDepartment() {
+    const { ctx, service } = this;
+    const params = {
+      id: {
+        ...ctx.rule.userPutBodyReq.id,
+      },
+      department_id: {
+        ...ctx.rule.userPutBodyReq.department_id,
+        required: true,
+      },
+    };
+    ctx.validate(params, ctx.request.body);
+    const res = await service.user.updateUserDepartment(ctx.request.body);
+    res && res[0] !== 0 ? ctx.helper.body.CREATED_UPDATE({ ctx }) : ctx.helper.body.INVALID_REQUEST({ ctx });
+  }
+
+  /**
+   * @apikey
+   * @summary 获取某个 用户
+   * @description 获取某个 用户
+   * @router get /backend/user
+   * @request query number *id eg:1 userID
+   */
+  async findOne() {
+    const { ctx, service } = this;
+    ctx.query.id = parseInt(ctx.query.id);
+    ctx.validate(ctx.rule.userId, ctx.query);
+    const res = await service.user.findOne(ctx.query.id);
+    res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+  }
 }
 
 module.exports = UserController;
