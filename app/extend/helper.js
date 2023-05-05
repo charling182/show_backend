@@ -215,8 +215,19 @@ module.exports.tools = {
     }
     console.log('getRulesTypeTransform--------', _rule);
     return _rule;
-  }
+  },
 
+  /**
+   * get请求参数都为字符串,但是校验规则中并不全是字符串，需要转换校验规则防止报错
+   */
+  queryParseInt(_query, queryKeys = []) {
+    // const _query = lodash.cloneDeep(query);
+    for (const queryKey of queryKeys) {
+      if (_query.hasOwnProperty(queryKey)) {
+        _query[queryKey] = parseInt(_query[queryKey]);
+      }
+    }
+  }
 };
 
 module.exports.body = {

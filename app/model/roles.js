@@ -1,7 +1,7 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+module.exports = app => {
   const { STRING, INTEGER, TINYINT, DATE } = app.Sequelize;
-  const roles = sequelize.define('roles', {
+  const roles = app.model.define('roles', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -30,16 +30,16 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   roles.associate = function(models) {
     // associations can be defined here
-    // app.model.Roles.belongsToMany(app.model.Permissions, {
-    //   through: app.model.RolePermissions, // 指定关联表，这里是 RolePermissions 中间表
-    //   foreignKey: 'role_id', // 指定连接此模型的外键字段名称，这里是 RolePermissions 表中的 role_id
-    //   otherKey: 'permission_id', // 指定关联模型的外键字段名称，这里是 RolePermissions 表中的 permission_id
-    // });
-    // app.model.Roles.belongsToMany(app.model.Menus, {
-    //   through: app.model.RoleMenus,
-    //   foreignKey: 'role_id',
-    //   otherKey: 'menu_id',
-    // });
+    app.model.Roles.belongsToMany(app.model.Permissions, {
+      through: app.model.RolePermissions, // 指定关联表，这里是 RolePermissions 中间表
+      foreignKey: 'role_id', // 指定连接此模型的外键字段名称，这里是 RolePermissions 表中的 role_id
+      otherKey: 'permission_id', // 指定关联模型的外键字段名称，这里是 RolePermissions 表中的 permission_id
+    });
+    app.model.Roles.belongsToMany(app.model.Menus, {
+      through: app.model.RoleMenus,
+      foreignKey: 'role_id',
+      otherKey: 'menu_id',
+    });
   };
   return roles;
 };

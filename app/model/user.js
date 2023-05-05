@@ -89,8 +89,6 @@ module.exports = app => {
     {
       sequelize: app.model,
       tableName: 'user',
-      timestamps: true, // 开启时间戳
-      underscored: true, // 开启下划线
       paranoid: true, // 软删除
       charset: 'utf8mb4', // 设置字符集
       collate: 'utf8mb4_unicode_ci', // 设置校对集

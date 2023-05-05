@@ -1,7 +1,9 @@
 'use strict';
 
 const {
-
+    id,
+    user_id,
+    role_id
 } = {
     id: { 
         type: 'number', 

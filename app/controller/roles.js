@@ -23,7 +23,6 @@ class RolesController extends Controller {
     ctx.query.limit ? ctx.query.limit = parseInt(ctx.query.limit) : '';
     ctx.query.offset ? ctx.query.offset = parseInt(ctx.query.offset) : '';
     ctx.query.id ? ctx.query.id = parseInt(ctx.query.id) : '';
-    ctx.query.order ? ctx.query.order = parseInt(ctx.query.order) : '';
     const { allRule, query } = ctx.helper.tools.findAllParamsDeal({
       rule: ctx.rule.roleBodyReq,
       queryOrigin: ctx.query,
@@ -73,7 +72,7 @@ class RolesController extends Controller {
       }
       return;
     }
-    res ? ctx.helper.body.NO_CONTENT({ ctx }) : ctx.helper.body.NOT_FOUND({ ctx });
+    res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
   }
 
   /**
