@@ -369,6 +369,11 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/component-emitter@^1.2.10":
+  version "1.2.11"
+  resolved "http://npm.fe.flyudesk.com/@types/component-emitter/-/component-emitter-1.2.11.tgz#50d47d42b347253817a39709fef03ce66a108506"
+  integrity sha1-UNR9QrNHJTgXo5cJ/vA85moQhQY=
+
 "@types/connect@*":
   version "3.4.35"
   resolved "http://npm.fe.flyudesk.com/@types/connect/-/connect-3.4.35.tgz#5fcf6ae445e4021d1fc2219a4873cc73a3bb2ad1"
@@ -479,6 +484,13 @@
   version "2.0.1"
   resolved "http://npm.fe.flyudesk.com/@types/http-errors/-/http-errors-2.0.1.tgz#20172f9578b225f6c7da63446f56d4ce108d5a65"
   integrity sha512-/K3ds8TRAfBvi5vfjuz8y6+GiAYBZ0x4tXv1Av6CWBWn0IlADc+ZX9pMq7oU0fNQPnBwIZl3rmeLp6SBApbxSQ==
+
+"@types/ioredis@^4.0.10":
+  version "4.28.10"
+  resolved "http://npm.fe.flyudesk.com/@types/ioredis/-/ioredis-4.28.10.tgz#40ceb157a4141088d1394bb87c98ed09a75a06ff"
+  integrity sha512-69LyhUgrXdgcNDv7ogs1qXZomnfOEnSmrmMFqKgt1XMJxmoOSG/u3wYy13yACIfKuMJ8IhKgHafDO3sx19zVQQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.4"
@@ -694,7 +706,7 @@ abbrev@^1.0.0:
   resolved "http://npm.fe.flyudesk.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha1-+PLIh60Qv2f2NPAFtph/7TF5qsg=
 
-accepts@^1.3.5:
+accepts@^1.3.5, accepts@~1.3.4:
   version "1.3.8"
   resolved "http://npm.fe.flyudesk.com/accepts/-/accepts-1.3.8.tgz#0bf0be125b67014adcb0b0921e62db7bffe16b2e"
   integrity sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==
@@ -1072,6 +1084,11 @@ await-first@^1.0.0:
   integrity sha1-Bq+m23zr5BK+m+VOgt2MbLTNskE=
   dependencies:
     ee-first "^1.1.1"
+
+await-stream-ready@^1.0.1:
+  version "1.0.1"
+  resolved "http://npm.fe.flyudesk.com/await-stream-ready/-/await-stream-ready-1.0.1.tgz#fa308c63fe14ac7a90966ad70822aa9369f8a6bb"
+  integrity sha512-6ixSbvbBLztuO5BVFjb2N+8ol6W+/2hEGdmhIGYUPY8IsVU4Rg84WRoLRQRtz0nbhkx1Jnu7S7XiVAzW3lLF/g==
 
 axe-core@^4.6.2:
   version "4.6.3"
@@ -1870,10 +1887,20 @@ balanced-match@^1.0.0:
   resolved "http://npm.fe.flyudesk.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha1-6D46fj8wCzTLnYf2FfoMvzV2kO4=
 
+base64-arraybuffer@0.1.4:
+  version "0.1.4"
+  resolved "http://npm.fe.flyudesk.com/base64-arraybuffer/-/base64-arraybuffer-0.1.4.tgz#9818c79e059b1355f97e0428a017c838e90ba812"
+  integrity sha1-mBjHngWbE1X5fgQooBfIOOkLqBI=
+
 base64-js@^1.3.1:
   version "1.5.1"
   resolved "http://npm.fe.flyudesk.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha1-GxtEAWClv3rUC2UPCVljSBkDkwo=
+
+base64id@2.0.0, base64id@~2.0.0:
+  version "2.0.0"
+  resolved "http://npm.fe.flyudesk.com/base64id/-/base64id-2.0.0.tgz#2770ac6bc47d312af97a8bf9a634342e0cd25cb6"
+  integrity sha1-J3Csa8R9MSr5eov5pjQ0LgzSXLY=
 
 base@^0.11.1:
   version "0.11.2"
@@ -2321,6 +2348,11 @@ cluster-client@^3.0.1:
     tcp-base "^3.1.0"
     utility "^1.15.0"
 
+cluster-key-slot@^1.1.0:
+  version "1.1.2"
+  resolved "http://npm.fe.flyudesk.com/cluster-key-slot/-/cluster-key-slot-1.1.2.tgz#88ddaa46906e303b5de30d3153b7d9fe0a0c19ac"
+  integrity sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==
+
 cluster-reload@^1.0.2:
   version "1.1.0"
   resolved "http://npm.fe.flyudesk.com/cluster-reload/-/cluster-reload-1.1.0.tgz#2d8187aaa34f553e880bb0f09b1cde1804efd92f"
@@ -2460,7 +2492,7 @@ commondir@^1.0.1:
   resolved "http://npm.fe.flyudesk.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=
 
-component-emitter@^1.2.0, component-emitter@^1.2.1:
+component-emitter@^1.2.0, component-emitter@^1.2.1, component-emitter@~1.3.0:
   version "1.3.0"
   resolved "http://npm.fe.flyudesk.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
   integrity sha1-FuQHD7qK4ptnnyIVhT7hgasuq8A=
@@ -2530,6 +2562,11 @@ cookie@^0.3.1:
   resolved "http://npm.fe.flyudesk.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
   integrity sha1-5+Ch+e9DtMi6klxcWpboBtFoc7s=
 
+cookie@~0.4.1:
+  version "0.4.2"
+  resolved "http://npm.fe.flyudesk.com/cookie/-/cookie-0.4.2.tgz#0e41f24de5ecf317947c82fc789e06a884824432"
+  integrity sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==
+
 cookiejar@^2.1.0:
   version "2.1.4"
   resolved "http://npm.fe.flyudesk.com/cookiejar/-/cookiejar-2.1.4.tgz#ee669c1fea2cf42dc31585469d193fef0d65771b"
@@ -2562,6 +2599,14 @@ core-util-is@^1.0.2, core-util-is@~1.0.0:
   version "1.0.3"
   resolved "http://npm.fe.flyudesk.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha1-pgQtNjTCsn6TKPg3uWX6yDgI24U=
+
+cors@~2.8.5:
+  version "2.8.5"
+  resolved "http://npm.fe.flyudesk.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
+  integrity sha1-6sEdpRWS3Ya58G9uesKTs9+HXSk=
+  dependencies:
+    object-assign "^4"
+    vary "^1"
 
 crc@^3.8.0:
   version "3.8.0"
@@ -2679,7 +2724,7 @@ debug@3.2.6:
   dependencies:
     ms "^2.1.1"
 
-debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3:
+debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@~4.3.1:
   version "4.3.4"
   resolved "http://npm.fe.flyudesk.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -2818,6 +2863,11 @@ delegates@^1.0.0:
   version "1.0.0"
   resolved "http://npm.fe.flyudesk.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
+
+denque@^1.1.0, denque@^1.5.0:
+  version "1.5.1"
+  resolved "http://npm.fe.flyudesk.com/denque/-/denque-1.5.1.tgz#07f670e29c9a78f8faecb2566a1e2c11929c5cbf"
+  integrity sha1-B/Zw4pyaePj67LJWah4sEZKcXL8=
 
 denque@^2.1.0:
   version "2.1.0"
@@ -3180,6 +3230,15 @@ egg-path-matching@^1.0.0, egg-path-matching@^1.0.1:
   dependencies:
     path-to-regexp "^1.7.0"
 
+egg-redis@^2.4.0:
+  version "2.4.0"
+  resolved "http://npm.fe.flyudesk.com/egg-redis/-/egg-redis-2.4.0.tgz#9773adfce34b8eb902610eda7525ccfefd87a735"
+  integrity sha512-c8NBivXMfHhxBh2hdAFlYP5R1790SF+E9dMCEN54Qbgu3QsMKoGH3Db5dN2cZ6SpBD0XED/Evlcl0LXqNecToA==
+  dependencies:
+    "@types/ioredis" "^4.0.10"
+    await-first "^1.0.0"
+    ioredis "^4.9.0"
+
 egg-schedule@^3.6.0:
   version "3.7.0"
   resolved "http://npm.fe.flyudesk.com/egg-schedule/-/egg-schedule-3.7.0.tgz#8e8a6e1a8e7db7e12a3224bd67ba5964f0798644"
@@ -3244,6 +3303,22 @@ egg-session@^3.1.0:
   integrity sha1-QBtS2iUVYj6n5Bz8aoV9tfUTiqw=
   dependencies:
     koa-session "^6.0.0"
+
+egg-socket.io-4@^4.2.8:
+  version "4.2.8"
+  resolved "http://npm.fe.flyudesk.com/egg-socket.io-4/-/egg-socket.io-4-4.2.8.tgz#efb833533b9df00291f7b1bab0262feee5e124fa"
+  integrity sha512-jHdQknyX5c7tCmYqXsb+F+qsG1pUFeeVfX/Ik0haGEpydN2W4F49pBXEL6mrB4zMf7e0Q/VixkAkAp5sW1y6CQ==
+  dependencies:
+    accepts "~1.3.4"
+    base64id "~2.0.0"
+    debug "~4.3.1"
+    delegates "^1.0.0"
+    engine.io "~5.0.0"
+    is-type-of "^1.2.1"
+    koa-compose "^4.1.0"
+    socket.io-adapter "~2.2.0"
+    socket.io-parser "~4.0.3"
+    socket.io-redis "^6.1.1"
 
 egg-static@^2.2.0:
   version "2.3.1"
@@ -3413,6 +3488,26 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0:
   integrity sha1-WuZKX0UFe682JuwU2gyl5LJDHrA=
   dependencies:
     once "^1.4.0"
+
+engine.io-parser@~4.0.0:
+  version "4.0.3"
+  resolved "http://npm.fe.flyudesk.com/engine.io-parser/-/engine.io-parser-4.0.3.tgz#83d3a17acfd4226f19e721bb22a1ee8f7662d2f6"
+  integrity sha512-xEAAY0msNnESNPc00e19y5heTPX4y/TJ36gr8t1voOaNmTojP9b3oK3BbJLFufW2XFPQaaijpFewm2g2Um3uqA==
+  dependencies:
+    base64-arraybuffer "0.1.4"
+
+engine.io@~5.0.0:
+  version "5.0.0"
+  resolved "http://npm.fe.flyudesk.com/engine.io/-/engine.io-5.0.0.tgz#470dc94a8a4907fa4d2cd1fa6611426afcee61bf"
+  integrity sha1-Rw3JSopJB/pNLNH6ZhFCavzuYb8=
+  dependencies:
+    accepts "~1.3.4"
+    base64id "2.0.0"
+    cookie "~0.4.1"
+    cors "~2.8.5"
+    debug "~4.3.1"
+    engine.io-parser "~4.0.0"
+    ws "~7.4.2"
 
 enquirer@^2.3.0:
   version "2.3.6"
@@ -4902,6 +4997,23 @@ invert-kv@^2.0.0:
   resolved "http://npm.fe.flyudesk.com/invert-kv/-/invert-kv-2.0.0.tgz#7393f5afa59ec9ff5f67a27620d11c226e3eec02"
   integrity sha1-c5P1r6Weyf9fZ6J2INEcIm4+7AI=
 
+ioredis@^4.9.0:
+  version "4.28.5"
+  resolved "http://npm.fe.flyudesk.com/ioredis/-/ioredis-4.28.5.tgz#5c149e6a8d76a7f8fa8a504ffc85b7d5b6797f9f"
+  integrity sha512-3GYo0GJtLqgNXj4YhrisLaNNvWSNwSS2wS4OELGfGxH8I69+XfNdnmV1AyN+ZqMh0i7eX+SWjrwFKDBDgfBC1A==
+  dependencies:
+    cluster-key-slot "^1.1.0"
+    debug "^4.3.1"
+    denque "^1.1.0"
+    lodash.defaults "^4.2.0"
+    lodash.flatten "^4.4.0"
+    lodash.isarguments "^3.1.0"
+    p-map "^2.1.0"
+    redis-commands "1.7.0"
+    redis-errors "^1.2.0"
+    redis-parser "^3.0.0"
+    standard-as-callback "^2.1.0"
+
 ip@^1.1.5:
   version "1.1.8"
   resolved "http://npm.fe.flyudesk.com/ip/-/ip-1.1.8.tgz#ae05948f6b075435ed3307acce04629da8cdbf48"
@@ -5814,6 +5926,16 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
+lodash.defaults@^4.2.0:
+  version "4.2.0"
+  resolved "http://npm.fe.flyudesk.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
+  integrity sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=
+
+lodash.flatten@^4.4.0:
+  version "4.4.0"
+  resolved "http://npm.fe.flyudesk.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
+  integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
+
 lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "http://npm.fe.flyudesk.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
@@ -5823,6 +5945,11 @@ lodash.includes@^4.3.0:
   version "4.3.0"
   resolved "http://npm.fe.flyudesk.com/lodash.includes/-/lodash.includes-4.3.0.tgz#60bb98a87cb923c68ca1e51325483314849f553f"
   integrity sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8=
+
+lodash.isarguments@^3.1.0:
+  version "3.1.0"
+  resolved "http://npm.fe.flyudesk.com/lodash.isarguments/-/lodash.isarguments-3.1.0.tgz#2f573d85c6a24289ff00663b491c1d338ff3458a"
+  integrity sha1-L1c9hcaiQon/AGY7SRwdM4/zRYo=
 
 lodash.isboolean@^3.0.3:
   version "3.0.3"
@@ -6428,6 +6555,11 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "http://npm.fe.flyudesk.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha1-Dc1p/yOhybEf0JeDFmRKA4ghamU=
 
+notepack.io@~2.2.0:
+  version "2.2.0"
+  resolved "http://npm.fe.flyudesk.com/notepack.io/-/notepack.io-2.2.0.tgz#d7ea71d1cb90094f88c6f3c8d84277c2d0cd101c"
+  integrity sha512-9b5w3t5VSH6ZPosoYnyDONnUTF8o0UkBw7JLA6eBlYJWyGT1Q3vQa8Hmuj1/X6RYvHjjygBDgw6fJhe0JEojfw==
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "http://npm.fe.flyudesk.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
@@ -6477,7 +6609,7 @@ nyc@^13.3.0:
     yargs "^12.0.5"
     yargs-parser "^11.1.1"
 
-object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "http://npm.fe.flyudesk.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -6744,6 +6876,11 @@ p-locate@^5.0.0:
   integrity sha1-g8gxXGeFAF470CGDlBHJ4RDm2DQ=
   dependencies:
     p-limit "^3.0.2"
+
+p-map@^2.1.0:
+  version "2.1.0"
+  resolved "http://npm.fe.flyudesk.com/p-map/-/p-map-2.1.0.tgz#310928feef9c9ecc65b68b17693018a665cea175"
+  integrity sha1-MQko/u+cnsxltosXaTAYpmXOoXU=
 
 p-try@^1.0.0:
   version "1.0.0"
@@ -7306,6 +7443,33 @@ ready-callback@^2.1.0:
     once "^1.4.0"
     uuid "^3.0.1"
 
+redis-commands@1.7.0, redis-commands@^1.7.0:
+  version "1.7.0"
+  resolved "http://npm.fe.flyudesk.com/redis-commands/-/redis-commands-1.7.0.tgz#15a6fea2d58281e27b1cd1acfb4b293e278c3a89"
+  integrity sha1-Fab+otWCgeJ7HNGs+0spPieMOok=
+
+redis-errors@^1.0.0, redis-errors@^1.2.0:
+  version "1.2.0"
+  resolved "http://npm.fe.flyudesk.com/redis-errors/-/redis-errors-1.2.0.tgz#eb62d2adb15e4eaf4610c04afe1529384250abad"
+  integrity sha512-1qny3OExCf0UvUV/5wpYKf2YwPcOqXzkwKKSmKHiE6ZMQs5heeE/c8eXK+PNllPvmjgAbfnsbpkGZWy8cBpn9w==
+
+redis-parser@^3.0.0:
+  version "3.0.0"
+  resolved "http://npm.fe.flyudesk.com/redis-parser/-/redis-parser-3.0.0.tgz#b66d828cdcafe6b4b8a428a7def4c6bcac31c8b4"
+  integrity sha1-tm2CjNyv5rS4pCin3vTGvKwxyLQ=
+  dependencies:
+    redis-errors "^1.0.0"
+
+redis@^3.0.0:
+  version "3.1.2"
+  resolved "http://npm.fe.flyudesk.com/redis/-/redis-3.1.2.tgz#766851117e80653d23e0ed536254677ab647638c"
+  integrity sha1-dmhREX6AZT0j4O1TYlRnerZHY4w=
+  dependencies:
+    denque "^1.5.0"
+    redis-commands "^1.7.0"
+    redis-errors "^1.2.0"
+    redis-parser "^3.0.0"
+
 regenerate@^1.2.1:
   version "1.4.2"
   resolved "http://npm.fe.flyudesk.com/regenerate/-/regenerate-1.4.2.tgz#b9346d8827e8f5a32f7ba29637d398b69014848a"
@@ -7831,6 +7995,31 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
+socket.io-adapter@~2.2.0:
+  version "2.2.0"
+  resolved "http://npm.fe.flyudesk.com/socket.io-adapter/-/socket.io-adapter-2.2.0.tgz#43af9157c4609e74b8addc6867873ac7eb48fda2"
+  integrity sha1-Q6+RV8RgnnS4rdxoZ4c6x+tI/aI=
+
+socket.io-parser@~4.0.3:
+  version "4.0.5"
+  resolved "http://npm.fe.flyudesk.com/socket.io-parser/-/socket.io-parser-4.0.5.tgz#cb404382c32324cc962f27f3a44058cf6e0552df"
+  integrity sha512-sNjbT9dX63nqUFIOv95tTVm6elyIU4RvB1m8dOeZt+IgWwcWklFDOdmGcfo3zSiRsnR/3pJkjY5lfoGqEe4Eig==
+  dependencies:
+    "@types/component-emitter" "^1.2.10"
+    component-emitter "~1.3.0"
+    debug "~4.3.1"
+
+socket.io-redis@^6.1.1:
+  version "6.1.1"
+  resolved "http://npm.fe.flyudesk.com/socket.io-redis/-/socket.io-redis-6.1.1.tgz#2361029a6c0b25c602d1422e1beb41907fd0e8bf"
+  integrity sha512-jeaXe3TGKC20GMSlPHEdwTUIWUpay/L7m5+S9TQcOf22p9Llx44/RkpJV08+buXTZ8E+aivOotj2RdeFJJWJJQ==
+  dependencies:
+    debug "~4.3.1"
+    notepack.io "~2.2.0"
+    redis "^3.0.0"
+    socket.io-adapter "~2.2.0"
+    uid2 "0.0.3"
+
 socks-proxy-agent@5, socks-proxy-agent@^5.0.0:
   version "5.0.1"
   resolved "http://npm.fe.flyudesk.com/socks-proxy-agent/-/socks-proxy-agent-5.0.1.tgz#032fb583048a29ebffec2e6a73fca0761f48177e"
@@ -7969,6 +8158,11 @@ stack-trace@^0.0.10:
   version "0.0.10"
   resolved "http://npm.fe.flyudesk.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
   integrity sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=
+
+standard-as-callback@^2.1.0:
+  version "2.1.0"
+  resolved "http://npm.fe.flyudesk.com/standard-as-callback/-/standard-as-callback-2.1.0.tgz#8953fc05359868a77b5b9739a665c5977bb7df45"
+  integrity sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==
 
 static-extend@^0.1.1:
   version "0.1.2"
@@ -8558,6 +8752,11 @@ uid-safe@2.1.5:
   dependencies:
     random-bytes "~1.0.0"
 
+uid2@0.0.3:
+  version "0.0.3"
+  resolved "http://npm.fe.flyudesk.com/uid2/-/uid2-0.0.3.tgz#483126e11774df2f71b8b639dcd799c376162b82"
+  integrity sha1-SDEm4Rd03y9xuLY53NeZw3YWK4I=
+
 umzug@^2.1.0:
   version "2.3.0"
   resolved "http://npm.fe.flyudesk.com/umzug/-/umzug-2.3.0.tgz#0ef42b62df54e216b05dcaf627830a6a8b84a184"
@@ -8693,6 +8892,11 @@ uuid@^8.3.2:
   resolved "http://npm.fe.flyudesk.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha1-gNW1ztJxu5r2xEXyGhoExgbO++I=
 
+uuid@^9.0.0:
+  version "9.0.0"
+  resolved "http://npm.fe.flyudesk.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
+  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
+
 v8-compile-cache-lib@^3.0.1:
   version "3.0.1"
   resolved "http://npm.fe.flyudesk.com/v8-compile-cache-lib/-/v8-compile-cache-lib-3.0.1.tgz#6336e8d71965cb3d35a1bbb7868445a7c05264bf"
@@ -8730,7 +8934,7 @@ validator@^10.4.0:
   resolved "http://npm.fe.flyudesk.com/validator/-/validator-10.11.0.tgz#003108ea6e9a9874d31ccc9e5006856ccd76b228"
   integrity sha1-ADEI6m6amHTTHMyeUAaFbM12sig=
 
-vary@^1.1.2:
+vary@^1, vary@^1.1.2:
   version "1.1.2"
   resolved "http://npm.fe.flyudesk.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
@@ -8872,6 +9076,11 @@ write@^0.2.1:
   integrity sha1-X8A4KOJkzqP+kUVUdvejxWbLB1c=
   dependencies:
     mkdirp "^0.5.1"
+
+ws@~7.4.2:
+  version "7.4.6"
+  resolved "http://npm.fe.flyudesk.com/ws/-/ws-7.4.6.tgz#5654ca8ecdeee47c33a9a4bf6d28e2be2980377c"
+  integrity sha1-VlTKjs3u5HwzqaS/bSjivimAN3w=
 
 wt@^1.2.0:
   version "1.2.0"

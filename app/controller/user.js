@@ -183,10 +183,10 @@ class UserController extends Controller {
    */
   async update() {
     // try {
-      const { ctx, service } = this;
-      ctx.validate(ctx.rule.userPutBodyReq, ctx.request.body);
-      const res = await service.user.update(ctx.request.body);
-      res && res[0] !== 0 ? ctx.helper.body.CREATED_UPDATE({ ctx }) : ctx.helper.body.NOT_FOUND({ ctx });
+    const { ctx, service } = this;
+    ctx.validate(ctx.rule.userPutBodyReq, ctx.request.body);
+    const res = await service.user.update(ctx.request.body);
+    res && res[0] !== 0 ? ctx.helper.body.CREATED_UPDATE({ ctx }) : ctx.helper.body.NOT_FOUND({ ctx });
 
     // } catch (e) {
     //   console.log('e---------', e.name, e.errors);

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (option, app) => {
-  return async function(ctx, next) {
+  return async function (ctx, next) {
     try {
       // 如果是非backend请求则跳过验证
       if (!/^\/backend\//.test(ctx.request.url)) {
@@ -17,13 +17,14 @@ module.exports = (option, app) => {
       }
       // 取出请求头中的authorization,这是jwt令牌
       const token = ctx.request.headers[app.config.jwt.tokenName] && ctx.request.headers[app.config.jwt.tokenName].split(app.config.jwt.tokenType + ' ')[1];
-      console.log('token', token, ctx.request.headers);
       if (!token) return ctx.helper.body.UNAUTHORIZED({ ctx });
       const decoded = await ctx.app.jwt.verify(token, ctx.app.config.jwt.secret);
       ctx.currentRequestData = decoded.data;
+      console.log('经过中间件-----', ctx.request.headers);
       await next();
     } catch (err) {
-      app.emit('error', err, this);
+      console.log('报错了------------', err);
+      // app.emit('error', err, this);
       // 如果是token过期，status为202
       if (err.name === 'TokenExpiredError') {
         ctx.helper.body.UNAUTHORIZED({ ctx, msg: err.message, status: 202 });

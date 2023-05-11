@@ -56,8 +56,21 @@ module.exports = appInfo => {
   };
 
   config.static = {
-    prefix: '/public/',
-    dir: path.join(appInfo.baseDir, '/public'),
+    prefix: '/public/', // 这里的 prefix 是 URL 前缀，例如 /public，表示访问静态文件时需要添加 /public 前缀；
+    dir: `${appInfo.baseDir}/public`, // dir 是静态文件目录，例如 ${appInfo.baseDir}/public，表示静态文件部署在项目的 public 目录中
+    upload_dir: 'uploads', // 文件上传目录，例如 uploads，表示上传的文件会保存在静态文件目录下的 uploads 目录中。
+  };
+
+
+  config.multipart = {
+    fileSize: '20mb',
+    // fileExtensions: [
+    //   '.docx',
+    //   '.doc',
+    //   '.xls',
+    //   '.xlsx',
+    // ],
+    whitelist: filename => true, // 不做类型限制
   };
 
   // add your user config here
@@ -69,7 +82,7 @@ module.exports = appInfo => {
     socketOnlineUserRoomName: 'onlineUserRoom:', // socket所有在线用户房间名
     socketProjectRoomNamePrefix: 'roomProject:', // socket项目房间名前缀
     socketRedisExp: 30, // socket消息存入redis过期时间(秒)
-    staticUseOSS: false, // 上传静态文件，使用云OSS存储
+    staticUseOBS: false, // 上传静态文件，使用云OBS存储
     inviteExpiresRange: 7 * 24 * 60, // 邀请有效时间（分钟）
     inviteExpiresCreateRange: 3 * 24 * 60, // 邀请有效时间更新时间，获取某个邀请时，如有效时间小于此时间，则创建一个新的邀请（分钟）
   };

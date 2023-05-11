@@ -1,46 +1,55 @@
 'use strict';
 module.exports = app => {
   const Sequelize = app.Sequelize;
-  const user_roles = app.model.define('user_roles', {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: Sequelize.INTEGER(11).UNSIGNED,
+  const ctx = app.createAnonymousContext();
+  const { models } = app.model;
+
+  const user_role = app.model.define(
+    'user_roles',
+    {
+      id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+      user_id: Sequelize.INTEGER(11),
+      role_id: Sequelize.INTEGER(11),
     },
-    user_id: {
-      type: Sequelize.INTEGER(11).UNSIGNED,
-      allowNull: false,
-      comment: '用户ID',
-      references: { //  references 是指该字段在数据库层面的外键约束，它指定了该字段引用了 users 表中的 id 字段作为外键。
-        model: 'user',  // 这里的model对应的是数据库中的表名
-        key: 'id', // 这里的key对应的是数据库中的字段名
-      }, // 这意味着，如果 users 表中的某个 id 值被删除了，与之相关的所有 user_roles 记录都应该被删除或者进行某种处理（例如将 user_id 置为 null）
-      onUpdate: 'NO ACTION', // 更新时操作
-      onDelete: 'NO ACTION', // 删除时操作
-    },
-    role_id: {
-      type: Sequelize.INTEGER(11).UNSIGNED,
-      allowNull: false,
-      comment: '用户ID',
-      references: {
-        model: 'roles',
-        key: 'id',
-      },
-      onUpdate: 'NO ACTION',
-      onDelete: 'NO ACTION',
-    },
-    created_at: {
-      allowNull: false,
-      type: Sequelize.DATE,
-    },
-    updated_at: {
-      allowNull: false,
-      type: Sequelize.DATE,
-    },
-  }, {});
-  user_roles.associate = function(models) {
+    {}
+  );
+  user_role.associate = function(models) {
     // associations can be defined here
+    app.model.UserRoles.belongsTo(app.model.Roles, {
+      foreignKey: 'role_id',
+      targetKey: 'id',
+    });
   };
-  return user_roles;
+
+  // user_role.afterBulkCreate((instances, options) => {
+  //   resetUserRoleIdsBaseUserId([instances[0].dataValues.user_id]);
+  // });
+  // user_role.afterBulkDestroy(options => {
+  //   const userIds = options.delData.map(v => v.dataValues.user_id);
+  //   resetUserRoleIdsBaseUserId(app.lodash.uniq(userIds));
+  // });
+
+  // 根据userId，重置redis中的userRoleIds
+  // async function resetUserRoleIdsBaseUserId(userIds) {
+  //   const user_roles = await models.user_roles.findAll({
+  //     attributes: ['user_id', 'role_id'],
+  //     where: { user_id: userIds },
+  //     limit: 10000,
+  //     raw: true,
+  //   });
+  //   const userGroup = app.lodash.groupBy(user_roles, 'user_id');
+  //   const pipeline = app.redis.pipeline();
+  //   userIds.forEach(e => pipeline.del(ctx.helper.redisKeys.userRoleIdsBaseUserId(e)));
+  //   Object.values(userGroup)
+  //     .forEach(e => {
+  //       const arr = [];
+  //       e.forEach(item => arr.push(item.role_id));
+  //       pipeline.sadd(ctx.helper.redisKeys.userRoleIdsBaseUserId(e[0].user_id), arr);
+  //       // 设置3天的过期期限
+  //       pipeline.expire(ctx.helper.redisKeys.userRoleIdsBaseUserId(e[0].user_id), 60 * 60 * 24 * 3);
+  //     });
+  //   pipeline.exec();
+  // }
+
+  return user_role;
 };

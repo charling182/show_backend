@@ -20,7 +20,7 @@ class UserService extends Service {
     email ? (where.email = { [Op.like]: `%${email}%` }) : null;
     phone ? (where.phone = { [Op.like]: `%${phone}%` }) : null;
     !ctx.helper.tools.isParam(state) ? (where.state = state) : null;
-    !ctx.helper.tools.isParam(department_id) ? (where.department_id =  department_id) : null;
+    !ctx.helper.tools.isParam(department_id) ? (where.department_id = department_id) : null;
     !ctx.helper.tools.isParam(project_id) ? (project_where = { id: project_id }) : null;
     prop_order && order ? Order.push([prop_order, order]) : null;
     // 不返回id为1的超级管理员用户
@@ -34,20 +34,20 @@ class UserService extends Service {
       offset,
       where,
       order: Order,
-      attributes: { exclude: [ 'password', 'deleted_at' ] },
+      attributes: { exclude: ['password', 'deleted_at'] },
       include: [
-        // {
-        //   model: ctx.model.Projects,
-        //   attributes: [ 'id' ],
-        //   where: project_where,
-        // },
-        // {
-        //   model: ctx.model.Roles,
-        //   attributes: [ 'id', 'name' ],
-        // },
+        {
+          model: ctx.model.Projects,
+          attributes: ['id'],
+          where: project_where,
+        },
+        {
+          model: ctx.model.Roles,
+          attributes: ['id', 'name'],
+        },
         {
           model: ctx.model.Departments,
-          attributes: [ 'id', 'name' ],
+          attributes: ['id', 'name'],
           as: 'department', // 别名 返回的数据是对象{department: {id: 1, name: 'xxx'}}
         },
       ],
@@ -104,21 +104,32 @@ class UserService extends Service {
       payload = Object.assign(payload, await ctx.helper.tools.saltPassword(payload.password));
       payload.password += payload.salt;
       // 此处执行多个操作，需要使用事务
+      const transaction = await ctx.model.transaction();
       try {
-        const res_user = await ctx.model.User.create(payload);
+        const res_user = await ctx.model.User.create(payload, { transaction });
+        const defaultRole = await ctx.model.Roles.findOne({ where: { is_default: 1 } });
+        // 分配 默认角色
+        await ctx.model.UserRoles.create(
+          {
+            user_id: res_user.id,
+            role_id: defaultRole.id,
+          },
+          { transaction }
+        );
         // 所有相应验证码状态都变更为false
         await ctx.model.VerificationCode.update(
           { available: 0 },
           {
             where: { target: email },
-          }
+          },
+          { transaction }
         );
+        await transaction.commit();
         return res_user;
       } catch (e) {
-        return {
-          __code_wrong: 40003,
-          message: '用户创建失败',
-        };
+        console.log('e----------------', e);
+        await transaction.rollback();
+        // app.logger.errorAndSentry(e);
       }
     }
     return {
@@ -174,36 +185,31 @@ class UserService extends Service {
    */
   async userInfo() {
     const { ctx, app } = this;
-
-    // const res = await ctx.model.User.findOne({
-    //   include: [
-    //     {
-    //       model: ctx.model.Roles,
-    //       include: [
-    //         {
-    //           model: ctx.model.Permissions,
-    //           attributes: [ 'id', 'url', 'action' ],
-    //         },
-    //       ],
-    //     },
-    //   ],
-    //   where: { id: ctx.currentRequestData.userInfo.id },
-    //   attributes: { exclude: ['password', 'deleted_at'] },
-    // });
-    // let arr = [];
-    // res.roles.forEach(e => {
-    //   e.permissions.forEach(ee => {
-    //     arr.push(ee);
-    //   });
-    // });
-    // arr = app.lodash.uniqWith(arr, (a, b) => a.id === b.id);
-    // arr = arr.map(permission => `${permission.action}:${permission.url}`);
-    // res.dataValues.permissions = arr || [];
     // jwt令牌中的信息在中间件的时候挂载到了ctx.currentRequestData.userInfo上
     const res = await ctx.model.User.findOne({
+      include: [
+        {
+          model: ctx.model.Roles,
+          include: [
+            {
+              model: ctx.model.Permissions,
+              attributes: ['id', 'url', 'action'],
+            },
+          ],
+        },
+      ],
       where: { id: ctx.currentRequestData.userInfo.id },
-      attributes: { exclude: [ 'password', 'deleted_at' ] },
+      attributes: { exclude: ['password', 'deleted_at'] },
     });
+    let arr = [];
+    res.roles.forEach(e => {
+      e.permissions.forEach(ee => {
+        arr.push(ee);
+      });
+    });
+    arr = app.lodash.uniqWith(arr, (a, b) => a.id === b.id);
+    arr = arr.map(permission => `${permission.action}:${permission.url}`);
+    res.dataValues.permissions = arr || [];
     return res;
   }
 
@@ -220,7 +226,7 @@ class UserService extends Service {
     email ? where[Op.or].push({ email }) : null;
     return await ctx.model.User.findOne({
       where,
-      attributes: { exclude: [ 'password', 'deleted_at' ] },
+      attributes: { exclude: ['password', 'deleted_at'] },
     });
   }
 
@@ -348,7 +354,7 @@ class UserService extends Service {
   async githubLogin(payload) {
     const { ctx, app } = this;
     const { login, id, avatar_url, name, company, location, email } = payload;
-    let user = await ctx.model.Users.findOne({
+    let user = await ctx.model.User.findOne({
       where: {
         username: login,
         user_id_github: id,
@@ -356,7 +362,7 @@ class UserService extends Service {
     });
     //  如果用户还没有注册，则注册
     if (!user) {
-      const existUser = await ctx.model.Users.findOne({
+      const existUser = await ctx.model.User.findOne({
         where: {
           username: login,
         },
@@ -368,7 +374,7 @@ class UserService extends Service {
       }
       const transaction = await ctx.model.transaction();
       try {
-        const res_user = await ctx.model.Users.create(
+        const res_user = await ctx.model.User.create(
           {
             username: login,
             user_id_github: id,
@@ -392,7 +398,7 @@ class UserService extends Service {
         );
         await transaction.commit();
         // 完成创建重新获取一下
-        user = await ctx.model.Users.findOne({
+        user = await ctx.model.User.findOne({
           where: {
             username: login,
             user_id_github: id,

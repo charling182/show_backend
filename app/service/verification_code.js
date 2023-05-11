@@ -15,7 +15,7 @@ class VerificationCodeService extends Service {
     const { limit, offset, prop_order, order } = payload;
     const where = payload.where;
     const Order = [];
-    prop_order && order ? Order.push([ prop_order, order ]) : null;
+    prop_order && order ? Order.push([prop_order, order]) : null;
     return await ctx.model.VerificationCode.findAndCountAll({
       limit,
       offset,
@@ -29,7 +29,7 @@ class VerificationCodeService extends Service {
     const { target } = payload;
     const expiration_time = app.dayjs()
       .add(15, 'minute')
-      .format('YYYY-MM-DD hh:mm:ss');
+      .format('YYYY-MM-DD HH:mm:ss');
 
     const code = Math.random()
       .toString()
@@ -37,7 +37,7 @@ class VerificationCodeService extends Service {
     app.mailer.send({
       from: '"Charling" <1650070770@qq.com>', // sender address, [options] default to user
       // // Array => ['bar@example.com', 'baz@example.com']
-      to: [ target ], // list of receivers
+      to: [target], // list of receivers
       subject: 'Charling验证码邮件', // Subject line
       text: code, // plain text body
       html: `<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;
@@ -83,7 +83,7 @@ class VerificationCodeService extends Service {
         target,
         code,
         available: 1,
-        expiration_time: { [ Op.gt ]: current_time }, // 大于当前时间
+        expiration_time: { [Op.gt]: current_time }, // 大于当前时间
       },
     });
     if (res) {

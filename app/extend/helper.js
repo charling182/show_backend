@@ -1,89 +1,89 @@
 'use strict';
 const crypto = require('crypto');
 const lodash = require('lodash');
-// const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const { Op } = require('sequelize');
 
 module.exports = {
   /**
    * socket消息规则解析
    */
-  // parseSocketMsg(params, clientId, action, method = 'publish') {
-  //   const data = {
-  //     id: uuidv4(),
-  //     clientId,
-  //     action,
-  //     method,
-  //     params,
-  //   };
-  //   return data;
-  // },
+  parseSocketMsg(params, clientId, action, method = 'publish') {
+    const data = {
+      id: uuidv4(),
+      clientId,
+      action,
+      method,
+      params,
+    };
+    return data;
+  },
   /**
    * 发送socket消息给room里的每个连接,并录入redis
    */
-  // async sendSocketToClientOfRoom(params, action, project_id = params.project_id, messageType = 'sync', method = 'publish') {
-  //   const { ctx, app, redisKeys } = this;
-  //   const nsp = app.io.of('/');
-  //   let roomName = '';
-  //   // 如果项目ID不存在，则向在线用户room广播
-  //   if (project_id) {
-  //     const project = await ctx.model.Projects.findOne({ where: { id: project_id, is_private: 1 } });
-  //     // 如果项目是私有的，则向项目room广播，否则向在线用户room广播
-  //     if (project) {
-  //       roomName = `${this.app.config.socketProjectRoomNamePrefix}${project_id}`;
-  //     } else {
-  //       roomName = app.config.socketOnlineUserRoomName;
-  //     }
-  //   } else {
-  //     roomName = app.config.socketOnlineUserRoomName;
-  //   }
-  //   try {
-  //     nsp.adapter.clients([roomName], (err, clients) => {
-  //       clients.forEach(clientId => {
-  //         const data = ctx.helper.parseSocketMsg(params, clientId, action, method);
-  //         const socket = nsp.to(clientId);
-  //         const emitData = [messageType, data];
-  //         socket.emit(...emitData);
-  //         // 存入redis，接收到ACK则删除，否则在 this.app.config.socketRedisExp 时间内多次重发
-  //         app.redis.setex(redisKeys.socketBaseSocketId(data.id), app.config.socketRedisExp, JSON.stringify(emitData));
-  //       });
-  //     });
-  //   } catch (e) {
-  //     app.logger.errorAndSentry(e);
-  //   }
-  // },
+  async sendSocketToClientOfRoom(params, action, project_id = params.project_id, messageType = 'sync', method = 'publish') {
+    const { ctx, app, redisKeys } = this;
+    const nsp = app.io.of('/');
+    let roomName = '';
+    // 如果项目ID不存在，则向在线用户room广播
+    if (project_id) {
+      const project = await ctx.model.Projects.findOne({ where: { id: project_id, is_private: 1 } });
+      // 如果项目是私有的，则向项目room广播，否则向在线用户room广播
+      if (project) {
+        roomName = `${this.app.config.socketProjectRoomNamePrefix}${project_id}`;
+      } else {
+        roomName = app.config.socketOnlineUserRoomName;
+      }
+    } else {
+      roomName = app.config.socketOnlineUserRoomName;
+    }
+    try {
+      nsp.adapter.clients([roomName], (err, clients) => {
+        clients.forEach(clientId => {
+          const data = ctx.helper.parseSocketMsg(params, clientId, action, method);
+          const socket = nsp.to(clientId);
+          const emitData = [messageType, data];
+          socket.emit(...emitData);
+          // 存入redis，接收到ACK则删除，否则在 this.app.config.socketRedisExp 时间内多次重发
+          // app.redis.setex(redisKeys.socketBaseSocketId(data.id), app.config.socketRedisExp, JSON.stringify(emitData));
+        });
+      });
+    } catch (e) {
+      app.logger.errorAndSentry(e);
+    }
+  },
   /**
    * 给单个socket发送消息,并录入redis
    */
-  // sendMessageToSocket(userId, params, action, messageType = 'sync', method = 'publish') {
-  //   const { ctx, app, redisKeys } = this;
-  //   const nsp = app.io.of('/');
-  //   nsp.adapter.clients((err, clients) => {
-  //     if (err) {
-  //       app.logger.errorAndSentry(err);
-  //       return;
-  //     }
-  //     clients.forEach(clientId => {
-  //       // 正则userID_uuid，给同一个用户多个socket分别发送消息
-  //       const rex = new RegExp(`^${userId}_.*`);
-  //       if (rex.test(clientId)) {
-  //         try {
-  //           const socket = nsp.to(clientId);
-  //           // 当此用户在线，则发送消息
-  //           if (socket) {
-  //             const _message = ctx.helper.parseSocketMsg(params, clientId, action, method);
-  //             const emitData = [messageType, _message];
-  //             socket.emit(...emitData);
-  //             // 存入redis，接收到ACK则删除，否则在 this.app.config.socketRedisExp 时间内多次重发
-  //             app.redis.setex(redisKeys.socketBaseSocketId(_message.id), app.config.socketRedisExp, JSON.stringify(emitData));
-  //           }
-  //         } catch (e) {
-  //           app.logger.errorAndSentry(e);
-  //         }
-  //       }
-  //     });
-  //   });
-  // },
+  sendMessageToSocket(userId, params, action, messageType = 'sync', method = 'publish') {
+    const { ctx, app, redisKeys } = this;
+    const nsp = app.io.of('/');
+    nsp.adapter.clients((err, clients) => {
+      if (err) {
+        app.logger.errorAndSentry(err);
+        return;
+      }
+      clients.forEach(clientId => {
+        // 正则userID_uuid，给同一个用户多个socket分别发送消息
+        const rex = new RegExp(`^${userId}_.*`);
+        if (rex.test(clientId)) {
+          try {
+            const socket = nsp.to(clientId);
+            // 当此用户在线，则发送消息
+            if (socket) {
+              const _message = ctx.helper.parseSocketMsg(params, clientId, action, method);
+              const emitData = [messageType, _message];
+              socket.emit(...emitData);
+              // 存入redis，接收到ACK则删除，否则在 this.app.config.socketRedisExp 时间内多次重发
+              app.redis.setex(redisKeys.socketBaseSocketId(_message.id), app.config.socketRedisExp, JSON.stringify(emitData));
+            }
+          } catch (e) {
+            app.logger.errorAndSentry(e);
+          }
+        }
+      });
+    });
+  },
 };
 
 module.exports.tools = {
@@ -314,21 +314,21 @@ module.exports.body = {
   },
 };
 
-// module.exports.redisKeys = {
-//   // 资源基于action和url存储到redis中的key
-//   permissionsBaseActionUrl(action = '', url = '') {
-//     return `permissions:action:${action}:url:${url}`;
-//   },
-//   // 角色资源基于roleId存储到redis中的key
-//   rolePermissionsBaseRoleId(id = '') {
-//     return `rolePermissions:roleId:${id}`;
-//   },
-//   // 用户拥有的所有角色id，基于userId存储到redis中的key
-//   userRoleIdsBaseUserId(id = '') {
-//     return `userRoleIds:userId:${id}`;
-//   },
-//   // socket发送后基于ID存储到redis中的key
-//   socketBaseSocketId(id = '') {
-//     return `socket:Id:${id}`;
-//   },
-// };
+module.exports.redisKeys = {
+  // // 资源基于action和url存储到redis中的key
+  // permissionsBaseActionUrl(action = '', url = '') {
+  //   return `permissions:action:${action}:url:${url}`;
+  // },
+  // // 角色资源基于roleId存储到redis中的key
+  // rolePermissionsBaseRoleId(id = '') {
+  //   return `rolePermissions:roleId:${id}`;
+  // },
+  // // 用户拥有的所有角色id，基于userId存储到redis中的key
+  // userRoleIdsBaseUserId(id = '') {
+  //   return `userRoleIds:userId:${id}`;
+  // },
+  // socket发送后基于ID存储到redis中的key
+  socketBaseSocketId(id = '') {
+    return `socket:Id:${id}`;
+  },
+};

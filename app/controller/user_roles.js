@@ -46,7 +46,7 @@ class UserRoleController extends Controller {
     const { ctx, service } = this;
     ctx.validate(ctx.rule.user_roleDelBodyReq, ctx.request.body);
     const res = await service.userRoles.destroy(ctx.request.body);
-    res ? ctx.helper.body.NO_CONTENT({ ctx }) : ctx.helper.body.NOT_FOUND({ ctx });
+    res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
   }
 
   /**

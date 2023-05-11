@@ -3,7 +3,7 @@
 const { Model } = require('sequelize');
 
 module.exports = app => {
-  class User extends Model {}
+  class User extends Model { }
 
   User.init(
     {
@@ -14,8 +14,9 @@ module.exports = app => {
       },
       department_id: {
         type: app.Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         comment: '部门id',
+        defaultValue: 0,
       },
       username: {
         type: app.Sequelize.STRING(60),
@@ -99,9 +100,20 @@ module.exports = app => {
       },
     }
   );
-  User.associate = function() {
+  User.associate = function () {
     // 部门和用户是一对多的关系,用户只属于一个部门
     User.hasOne(app.model.Departments, { foreignKey: 'id', sourceKey: 'department_id', as: 'department' });
+
+    User.belongsToMany(app.model.Roles, {
+      through: app.model.UserRoles,
+      foreignKey: 'user_id',
+      otherKey: 'role_id',
+    });
+    User.belongsToMany(app.model.Projects, {
+      through: app.model.UserProjects,
+      foreignKey: 'user_id',
+      otherKey: 'project_id',
+    });
   };
 
   return User;

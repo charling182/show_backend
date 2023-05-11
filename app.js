@@ -1,9 +1,9 @@
 'use strict';
-// const lodash = require('lodash');
-// const { v4: uuidv4 } = require('uuid');
+const lodash = require('lodash');
+const { v4: uuidv4 } = require('uuid');
 const dayjs = require('dayjs');
-// const path = require('path');
-// const fs = require('fs');
+const path = require('path');
+const fs = require('fs');
 // const { permissionsToRedis } = require('./app-boot-hook-do');
 // const Sentry = require('@sentry/node');
 
@@ -55,8 +55,8 @@ class AppBootHook {
     //   this.app.config.env === 'prod' ? Sentry.captureException(msg) : null;
     //   this.app.logger.error(msg, ...arg);
     // };
-    // this.app.lodash = lodash;
-    // this.app.uuidv4 = uuidv4;
+    this.app.lodash = lodash;
+    this.app.uuidv4 = uuidv4;
     this.app.dayjs = dayjs;
     // console.log('willReady');
     // console.time('willReady');
@@ -75,15 +75,13 @@ class AppBootHook {
     // console.timeEnd('willReady');
     // // const ctx = await this.app.createAnonymousContext();
     // // await ctx.service.Biz.request();
-
     // // 如果没有uploads文件夹，则创建
-    // const { dir, upload_dir } = this.app.config.static;
-    // const public_uploads = path.join(dir, upload_dir);
-    // this.app.config.static.public_uploads_path = public_uploads;
-    // if (!fs.existsSync(public_uploads)) {
-    //   fs.mkdirSync(public_uploads, { recursive: true });
-    // }
-    
+    const { dir, upload_dir } = this.app.config.static;
+    const public_uploads = path.join(dir, upload_dir);
+    this.app.config.static.public_uploads_path = public_uploads;
+    if (!fs.existsSync(public_uploads)) {
+      fs.mkdirSync(public_uploads, { recursive: true });
+    }
   }
 
   async serverDidReady() {
@@ -91,9 +89,10 @@ class AppBootHook {
     // // http / https server 已启动，开始接受外部请求
     // // 此时可以从 app.server 拿到 server 的实例
 
-    // this.app.server.on('timeout', socket => {
-    //   // handle socket timeout
-    // });
+    this.app.server.on('timeout', socket => {
+      console.log('timeout------------');
+      // handle socket timeout
+    });
   }
 }
 

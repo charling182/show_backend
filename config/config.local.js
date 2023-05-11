@@ -1,5 +1,7 @@
 'use strict';
 
+const { v4: uuidv4 } = require('uuid');
+
 // 不开启csrf(跨站攻击)防御,每次请求生成一次太费性能
 exports.security = {
   csrf: {
@@ -27,3 +29,41 @@ exports.sequelize = {
     // collate: 'utf8_general_ci',
   },
 };
+
+exports.redis = {
+  client: {
+    port: 6379,
+    host: '127.0.0.1',
+    password: '123123',
+    db: 1,
+  },
+};
+
+exports.io = {
+  init: {
+    pingTimeout: 10000, // 10 seconds
+    pingInterval: 25000, // 25 seconds
+    // transports: ['websocket'],
+    // pingInterval: 5000,
+    // allowEIO3: true,
+  }, // passed to engine.io
+  namespace: {
+    '/': {
+      connectionMiddleware: ['connection'],
+      packetMiddleware: ['packet'],
+    },
+  },
+  redis: {
+    host: '127.0.0.1',
+    port: 6379,
+    password: '123123',
+    db: 3,
+  },
+  generateId: req => {
+    // 自定义 socket.id 生成函数
+    // const data = qs.parse(req.url.split('?')[1]);
+    return `${req._query.userId}_${uuidv4()}`; // custom id must be unique
+  },
+};
+
+

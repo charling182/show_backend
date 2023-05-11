@@ -21,4 +21,15 @@ module.exports = {
     enable: true,
     package: 'egg-mailer',
   },
+  io: {
+    enable: true,
+    package: 'egg-socket.io-4',
+  },
+  redis: {
+    enable: true,
+    package: 'egg-redis',
+  },
+  static: {
+    enable: true,
+  }
 };
