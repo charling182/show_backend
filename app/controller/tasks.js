@@ -22,7 +22,7 @@ class RoleController extends Controller {
       service,
       app: { lodash },
     } = this;
-    ctx.helper.tools.queryParseInt(ctx.query, ['limit', 'offset']);
+    ctx.helper.tools.queryParseInt(ctx.query, ['limit', 'offset', 'is_done', 'is_recycle', 'participator_id', 'creator_id', 'project_id', 'task_list_id']);
     const rules = {
       executor_ids: {
         type: 'array',

@@ -90,9 +90,13 @@ module.exports = app => {
   // });
   task.associate = function (models) {
     // associations can be defined here
-    task.hasOne(app.model.User, { foreignKey: 'id', sourceKey: 'executor_id', as: 'executor' });
-    task.hasOne(app.model.User, { foreignKey: 'id', sourceKey: 'creator_id', as: 'creator' });
-    task.hasOne(app.model.Projects, { foreignKey: 'id', sourceKey: 'project_id', as: 'project' });
+    // 外键全在task表上,使用hasOne就啥也查不到
+    // task.hasOne(app.model.User, { foreignKey: 'id', sourceKey: 'executor_id', as: 'executor' });
+    // task.hasOne(app.model.User, { foreignKey: 'id', sourceKey: 'creator_id', as: 'creator' });
+    // task.hasOne(app.model.Projects, { foreignKey: 'id', sourceKey: 'project_id', as: 'project' });
+    task.belongsTo(app.model.User, { foreignKey: 'executor_id', targetKey: 'id', as: 'executor' });
+    task.belongsTo(app.model.User, { foreignKey: 'creator_id', targetKey: 'id', as: 'creator' });
+    task.belongsTo(app.model.Projects, { foreignKey: 'project_id', targetKey: 'id', as: 'project' });
     app.model.Tasks.belongsToMany(app.model.User, {
       through: app.model.UserTasks,
       foreignKey: 'task_id',

@@ -277,4 +277,9 @@ module.exports = app => {
    * 用户-任务-点赞关系表
    */
   router.post('/backend/user_task_likes/change', controller.userTaskLikes.change);
+
+  /**
+ * 用户-任务标签关系表
+ */
+  router.post('/backend/user_tasks/change', controller.userTasks.change);
 };

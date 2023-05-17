@@ -11,6 +11,6 @@ run/
 *.un~
 typings/
 .nyc_output/
-app/public/uploads/*
+public/uploads/*
 .github
 

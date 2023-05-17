@@ -19,7 +19,7 @@ class RoleController extends Controller {
   async findAll() {
     const { ctx, service } = this;
     // get请求参数转为数字类型
-    ctx.helper.tools.queryParseInt(ctx.query, ['limit', 'offset']);
+    ctx.helper.tools.queryParseInt(ctx.query, ['limit', 'offset', 'is_custom']);
     const { allRule, query } = ctx.helper.tools.findAllParamsDeal({
       rule: ctx.rule.project_templatePutBodyReq,
       queryOrigin: ctx.query,

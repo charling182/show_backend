@@ -19,7 +19,7 @@ class RoleController extends Controller {
   async findAll() {
     const { ctx, service } = this;
     // get请求参数转为数字类型
-    ctx.helper.tools.queryParseInt(ctx.query, ['limit', 'offset']);
+    ctx.helper.tools.queryParseInt(ctx.query, ['limit', 'offset', 'task_id']);
     const { allRule, query } = ctx.helper.tools.findAllParamsDeal({
       rule: ctx.rule.task_working_hourPutBodyReq,
       queryOrigin: ctx.query,
@@ -83,7 +83,7 @@ class RoleController extends Controller {
     const { ctx, service } = this;
     ctx.validate(ctx.rule.task_working_hourDelBodyReq, ctx.request.body);
     const res = await service.taskWorkingHours.destroy(ctx.request.body);
-    res ? ctx.helper.body.NO_CONTENT({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+    res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
   }
 }
 

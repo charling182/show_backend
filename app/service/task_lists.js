@@ -38,10 +38,15 @@ class _objectName_Service extends Service {
     const Order = [['sort', 'asc']];
     prop_order && order ? Order.push([prop_order, order]) : null;
     return await ctx.model.TaskLists.findAndCountAll({
+      distinct: true,
       limit,
       offset,
       where,
       order: Order,
+      include: {
+        model: ctx.model.Tasks,
+        as: 'tasks',
+      }
     });
   }
 

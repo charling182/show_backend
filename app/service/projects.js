@@ -47,7 +47,15 @@ class ProjectsService extends Service {
 
   async findOne(id) {
     const { ctx } = this;
-    return await ctx.model.Projects.findOne({ where: { id } });
+    return await ctx.model.Projects.findOne({
+      where: { id },
+      include: [
+        {
+          model: ctx.model.User,
+          as: 'member',
+        },
+      ],
+    });
   }
 
   async create(payload) {

@@ -16,6 +16,10 @@ module.exports = {
           unique: false,
           comment: '任务名称',
         },
+        project_id: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
         parent_id: {
           type: Sequelize.INTEGER(11),
           allowNull: false,

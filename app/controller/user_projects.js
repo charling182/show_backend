@@ -98,7 +98,7 @@ class RoleController extends Controller {
     ctx.validate(ctx.rule.user_projectBodyReq, ctx.request.body);
     const res = await service.userProjects.quit(ctx.request.body);
     if (res === false) return;
-    res ? ctx.helper.body.NO_CONTENT({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+    res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
   }
 }
 

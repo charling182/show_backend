@@ -32,13 +32,14 @@ module.exports = app => {
   //   ctx.helper.sendSocketToClientOfRoom(task_list, 'delete:task_list');
   // });
 
-  task_list.associate = function(models) {
+  task_list.associate = function (models) {
     // associations can be defined here
-    // app.model.TaskLists.hasMany(app.model.Tasks, {
-    //   foreignKey: 'task_list_id',
-    //   targetKey: 'id',
-    // });
-    app.model.TaskLists.hasOne(app.model.Projects, { foreignKey: 'id', sourceKey: 'project_id', as: 'project' });
+    app.model.TaskLists.hasMany(app.model.Tasks, {
+      foreignKey: 'task_list_id',
+      sourceKey: 'id',
+      as: 'tasks',
+    });
+    app.model.TaskLists.belongsTo(app.model.Projects, { foreignKey: 'project_id', targetKey: 'id', as: 'project' });
   };
 
   return task_list;

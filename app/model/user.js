@@ -76,6 +76,7 @@ module.exports = app => {
         allowNull: true,
       },
       deleted_at: {
+        allowNull: true,
         type: app.Sequelize.DATE,
       },
       created_at: {

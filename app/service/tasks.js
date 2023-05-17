@@ -54,6 +54,7 @@ class TasksService extends Service {
         },
       ];
     }
+    console.log('where------------------', where);
     return await ctx.model.Tasks.findAndCountAll({
       distinct: true,
       limit,
@@ -240,7 +241,7 @@ class TasksService extends Service {
         project_id: payload.project_id,
         operator_id: userId,
         type: 'create',
-        icon: 'el-icon-plus',
+        icon: 'plus',
       };
       await ctx.model.TaskLogs.create(taskLog, { transaction });
       // 创建任务，默认将创建者加入参与此任务
@@ -297,7 +298,7 @@ class TasksService extends Service {
       if (app.lodash.has(payload, 'name')) {
         taskLog.remark = '更新了内容';
         taskLog.type = 'name';
-        taskLog.icon = 'el-icon-edit';
+        taskLog.icon = 'edit';
         taskLog.content = payload.name;
       }
       if (app.lodash.has(payload, 'task_state_id')) {
@@ -305,7 +306,7 @@ class TasksService extends Service {
           where: { id: payload.task_state_id },
         });
         taskLog.remark = `修改执行状态为 ${state.name}`;
-        taskLog.icon = 'el-icon-pie-chart';
+        taskLog.icon = 'pie-chart';
         taskLog.type = 'state';
         message.content = `更改了任务 ${taskNameSpan} 的执行状态为 <span class="state" style="color: ${state.color};">${state.name}</span>`;
       }
@@ -314,8 +315,8 @@ class TasksService extends Service {
           where: { id: payload.task_type_id },
         });
         taskLog.remark = `修改任务类型为 ${type.name}`;
-        taskLog.type = 'type';
-        taskLog.icon = 'el-icon-edit';
+        taskLog.type = 'edit';
+        taskLog.icon = 'edit';
       }
       if (app.lodash.has(payload, 'task_priority_id')) {
         const priority = await ctx.model.TaskPrioritys.findOne({
@@ -323,7 +324,7 @@ class TasksService extends Service {
         });
         taskLog.remark = `修改任务优先级为 ${priority.name}`;
         taskLog.type = 'priority';
-        taskLog.icon = 'el-icon-edit';
+        taskLog.icon = 'edit';
       }
       if (app.lodash.has(payload, 'executor_id')) {
         const { executor_id } = payload;
@@ -361,7 +362,7 @@ class TasksService extends Service {
           taskLog.remark = `指派给了 ${executor.username}`;
           message.content = `将任务 ${taskNameSpan} 指派给了 <span class="executor">${executor.username}</span>`;
         }
-        taskLog.icon = 'el-icon-user';
+        taskLog.icon = 'user';
       }
       if (app.lodash.has(payload, 'start_date')) {
         if (payload.start_date) {
@@ -370,7 +371,7 @@ class TasksService extends Service {
           taskLog.remark = '清除了开始时间';
         }
         taskLog.type = 'start_date';
-        taskLog.icon = 'el-icon-date';
+        taskLog.icon = 'date';
       }
       if (app.lodash.has(payload, 'end_date')) {
         if (payload.end_date) {
@@ -379,24 +380,24 @@ class TasksService extends Service {
           taskLog.remark = '清除了截止时间';
         }
         taskLog.type = 'end_date';
-        taskLog.icon = 'el-icon-date';
+        taskLog.icon = 'date';
       }
       if (app.lodash.has(payload, 'remark')) {
         taskLog.remark = '更新了备注';
         taskLog.type = 'remark';
         taskLog.content = payload.remark;
-        taskLog.icon = 'el-icon-document';
+        taskLog.icon = 'document';
       }
       if (app.lodash.has(payload, 'is_recycle')) {
         taskLog.remark = payload.is_recycle ? '将任务放入了回收站' : '从回收站中还原了任务';
         taskLog.type = 'is_recycle';
-        taskLog.icon = 'el-icon-delete';
+        taskLog.icon = 'delete';
       }
       if (app.lodash.has(payload, 'is_done')) {
         const { is_done } = payload;
         taskLog.remark = is_done === 1 ? '完成了任务' : '重做了任务';
         taskLog.type = 'is_done';
-        taskLog.icon = 'el-icon-check';
+        taskLog.icon = 'check';
         message.content = `更改了任务 ${taskNameSpan} 的完成状态为 ${is_done === 1 ? '<span class="done">已完成</span>' : '<span class="redo">未完成</span>'}`;
       }
       await ctx.model.TaskLogs.create(taskLog, { transaction });
@@ -411,7 +412,7 @@ class TasksService extends Service {
         ctx.model.UserTasks.findAll({ where: { task_id: payload.id } })
           .then(userTasks => {
             userTasks.forEach(userTask => {
-            // 除去操作者
+              // 除去操作者
               if (userTask.user_id.toString() === ctx.currentRequestData.userInfo.id.toString()) return;
               message.receiver_id = userTask.user_id;
               // 如果是执行者更改的指派情况，message的接收者和执行者的id相同

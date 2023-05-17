@@ -41,8 +41,10 @@ module.exports = app => {
   });
 
   task_log.associate = function (models) {
-    task_log.hasOne(app.model.User, { foreignKey: 'id', sourceKey: 'operator_id', as: 'operator' });
-    task_log.hasOne(app.model.Tasks, { foreignKey: 'id', sourceKey: 'task_id', as: 'task' });
+    // task_log.hasOne(app.model.User, { foreignKey: 'id', sourceKey: 'operator_id', as: 'operator' });
+    // task_log.hasOne(app.model.Tasks, { foreignKey: 'id', sourceKey: 'task_id', as: 'task' });
+    task_log.belongsTo(app.model.User, { foreignKey: 'operator_id', targetKey: 'id', as: 'operator' });
+    task_log.belongsTo(app.model.Tasks, { foreignKey: 'task_id', targetKey: 'id', as: 'task' });
     // associations can be defined here
   };
   return task_log;
