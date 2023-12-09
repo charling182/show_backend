@@ -170,6 +170,7 @@ class UserController extends Controller {
    */
   async userInfo() {
     const { ctx, service } = this;
+    console.log('ctx.currentRequestData.userInfo.id---------', ctx.currentRequestData.userInfo.id);
     const res = await service.user.userInfo();
     res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
   }

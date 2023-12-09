@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 class PermissionService extends Service {
   async findAll(payload) {
     const { ctx } = this;
-    const { limit, offset, prop_order, order } = payload;
+    const { limit, offset, prop_order = 'created_at', order = 'DESC' } = payload;
     const where = payload.where;
     const Order = [];
     prop_order && order ? Order.push([prop_order, order]) : null;
@@ -59,6 +59,17 @@ class PermissionService extends Service {
     const delData = await ctx.model.Permissions.findAll({
       where: { id: payload.ids },
     });
+    const relatedData = await ctx.model.RolePermissions.findAndCountAll(
+      {
+        where: { permission_id: payload.ids },
+      }
+    );
+    // 在删除资源时，如果有角色关联了该资源，则不允许删除
+    if (relatedData.count > 0) {
+      return {
+        role_relation_permission: true
+      }
+    }
     return await ctx.model.Permissions.destroy({
       ctx,
       where: { id: payload.ids },

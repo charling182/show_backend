@@ -11,7 +11,6 @@ class _objectName_Service extends Service {
     const Order = [];
     name ? (where.name = { [Op.like]: `%${name}%` }) : null;
     prop_order && order ? Order.push([prop_order, order]) : null;
-    console.log('where---------------', where);
     return await ctx.model.Messages.findAndCountAll({
       limit,
       offset,

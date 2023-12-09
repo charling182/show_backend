@@ -19,22 +19,25 @@ module.exports = app => {
     },
     {}
   );
-  permission.associate = function(models) {
+  permission.associate = function (models) {
     // associations can be defined here
   };
-  // permission.addHook('afterCreate', (permission, options) => {
-  //   const { dataValues } = permission;
-  //   app.redis.hmset(ctx.helper.redisKeys.permissionsBaseActionUrl(dataValues.action, dataValues.url), dataValues);
-  // });
-  // permission.afterBulkUpdate(async options => {
-  //   const { attributes } = options;
-  //   app.redis.hmset(ctx.helper.redisKeys.permissionsBaseActionUrl(attributes.action, attributes.url), attributes);
-  // });
-  // permission.afterBulkDestroy(async options => {
-  //   options.delData.forEach(v => {
-  //     app.redis.del(ctx.helper.redisKeys.permissionsBaseActionUrl(v.dataValues.action, v.dataValues.url));
-  //     // app.redis.smove(`${ v.dataValues.action }_${ v.dataValues.url }`);
-  //   });
-  // });
+  permission.addHook('afterCreate', (permission, options) => {
+    const { dataValues } = permission;
+    // HMSET 是 Redis 的一个命令，用于同时设置哈希表中的多个字段和值。
+    // HMSET key field1 value1[field2 value2 ...]
+    app.redis.hmset(ctx.helper.redisKeys.permissionsBaseActionUrl(dataValues.action, dataValues.url), dataValues);
+  });
+  permission.afterBulkUpdate(async options => {
+    const { attributes } = options;
+    app.redis.hmset(ctx.helper.redisKeys.permissionsBaseActionUrl(attributes.action, attributes.url), attributes);
+  });
+  permission.afterBulkDestroy(async options => {
+    console.log('permission.afterBulkDestroy----------------');
+    options.delData.forEach(v => {
+      // DEL 是 Redis 的一个命令，用于删除指定的键或键集。
+      app.redis.del(ctx.helper.redisKeys.permissionsBaseActionUrl(v.dataValues.action, v.dataValues.url));
+    });
+  });
   return permission;
 };

@@ -9,7 +9,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_{{keys}}';
 
   // add your middleware config here
-  config.middleware = [ 'jurisdictionHandler', 'errorHandler' ];
+  config.middleware = ['jurisdictionHandler', 'errorHandler', 'logHandler'];
 
   // swaggerdoc config
   config.swaggerdoc = {
@@ -19,26 +19,45 @@ module.exports = appInfo => {
       description: 'Example API for egg-swagger-doc',
       version: '1.0.0',
     },
-    schemes: [ 'http', 'https' ],
-    consumes: [ 'application/json' ],
-    produces: [ 'application/json' ],
-    enableSecurity: true, 
+    schemes: ['http', 'https'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    enableSecurity: true,
     routerMap: false, // (实验功能)注释中有@router时,一旦开启会自行生成路由表,而且会覆盖写好的路由表,此时接口类型以注释为主
     enable: true,
     securityDefinitions: {
-      Bearer: {
+      apikey: {
         type: 'apiKey',
         name: 'Authorization',
         in: 'header',
       },
+      oauth2: {
+        type: 'oauth2',
+        tokenUrl: 'http://127.0.0.1:7001/backend/user/login',
+        flow: 'password',
+        scopes: {
+          'write:access_token': 'write access_token',
+          'read:access_token': 'read access_token',
+        },
+      },
     },
-    security: [{ Bearer: [] }],
   };
 
   // jwt config
   config.jwt = {
     secret: 'memory',
-    ignore: [ '/backend/user/login', '/backend/user/register', '/backend/user/logout', '/backend/configuration/public_key', '/backend/verification_code', '/backend/user/password' ], //登录,注册,登出不需要验证
+    ignore: [
+      '/backend/user/login',
+      '/backend/user/register',
+      '/backend/user/logout',
+      '/backend/configuration/public_key',
+      '/backend/verification_code',
+      '/backend/user/password',
+      '/backend/task_states/list',
+      '/backend/task_types/list',
+      '/backend/task_prioritys/list',
+      '/backend/task_tags/list',
+    ], //登录,注册,登出不需要验证
     expiresIn: '1d',
     tokenName: 'authorization',
     tokenType: 'Bearer',

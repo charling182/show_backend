@@ -16,30 +16,30 @@ module.exports = app => {
     {}
   );
 
-  // message.addHook('afterCreate', async (message, options) => {
-  //   const ctx = await app.createAnonymousContext();
-  //   // 发送socket消息
-  //   const newMessage = Object.assign(
-  //     {
-  //       is_read: 0,
-  //       url: '',
-  //     },
-  //     message.dataValues
-  //   );
-  //   newMessage.actor = await ctx.model.Users.findOne({
-  //     where: {
-  //       id: message.actor_id,
-  //     },
-  //   });
-  //   const { receiver_id } = message;
-  //   ctx.helper.sendMessageToSocket(receiver_id, newMessage, 'create:message');
-  // });
+  message.addHook('afterCreate', async (message, options) => {
+    const ctx = await app.createAnonymousContext();
+    // 发送socket消息
+    const newMessage = Object.assign(
+      {
+        is_read: 0,
+        url: '',
+      },
+      message.dataValues
+    );
+    newMessage.actor = await ctx.model.User.findOne({
+      where: {
+        id: message.actor_id,
+      },
+    });
+    const { receiver_id } = message;
+    ctx.helper.sendMessageToSocket(receiver_id, newMessage, 'create:message', 'message');
+  });
 
-  // message.addHook('afterUpdate', async (message, options) => {
-  //   const ctx = await app.createAnonymousContext();
-  //   const { receiver_id } = message;
-  //   ctx.helper.sendMessageToSocket(receiver_id, message, 'update:message');
-  // });
+  message.addHook('afterUpdate', async (message, options) => {
+    const ctx = await app.createAnonymousContext();
+    const { receiver_id } = message;
+    ctx.helper.sendMessageToSocket(receiver_id, message, 'update:message', 'message');
+  });
 
   message.associate = function (models) {
     // associations can be defined here

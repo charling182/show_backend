@@ -24,7 +24,7 @@ class RoleController extends Controller {
     const { fileSize } = app.config.multipart;
     const size = ctx.request.header['content-length'];
     const stream = await ctx.getFileStream();
-    console.log('uploads----------', stream);
+    // console.log('uploads----------', stream);
     if (size > fileSize) {
       ctx.helper.body.INVALID_REQUEST({
         ctx,

@@ -87,8 +87,21 @@ class RoleController extends Controller {
   async destroy() {
     const { ctx, service } = this;
     ctx.validate(ctx.rule.permissionDelBodyReq, ctx.request.body);
-    const res = await service.permissions.destroy(ctx.request.body);
-    res ? ctx.helper.body.NO_CONTENT({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+    // service.permissions.destroy(ctx.request.body) 抛出一个错误（例如，由于数据库的 onDelete: 'NO ACTION' 约束），那么这个错误将会中断函数的执行，
+    try {
+      // try 和 catch 块有各自的作用域。在 try 块中声明的变量在 catch 块中是不可见的，反之亦然。这就是为什么你不能在 catch 块中访问 try 块中定义的 res 变量。
+      // 错误处理中间件未能捕获到错误，所以需要在这里捕获错误
+      const res = await service.permissions.destroy(ctx.request.body);
+      // 如果有角色关联了该资源，则不允许删除
+      if (res && res.role_relation_permission) {
+        ctx.helper.body.PERMISSIONS_NOT_DELETE({ ctx });
+      } else {
+        res ? ctx.helper.body.NO_CONTENT({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+      }
+    } catch (error) {
+      // Handle the error here
+      ctx.helper.body.PERMISSIONS_NOT_DELETE({ ctx })
+    }
   }
 }
 

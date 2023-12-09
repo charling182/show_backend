@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (option, app) => {
-  return async function(ctx, next) {
+  return async function (ctx, next) {
     try {
       await next();
     } catch (err) {

@@ -11,7 +11,7 @@
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.5.0",
     "egg-sequelize": "^4.0.2",
-    "egg-socket.io-4": "^4.2.8",
+    "egg-socket.io": "^4.1.6",
     "egg-swagger-doc": "^2.3.2",
     "egg-validate": "^2.0.2",
     "lodash": "^4.17.21",

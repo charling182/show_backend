@@ -23,7 +23,7 @@ module.exports = {
   },
   io: {
     enable: true,
-    package: 'egg-socket.io-4',
+    package: 'egg-socket.io',
   },
   redis: {
     enable: true,

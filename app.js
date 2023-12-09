@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const dayjs = require('dayjs');
 const path = require('path');
 const fs = require('fs');
-// const { permissionsToRedis } = require('./app-boot-hook-do');
+const { permissionsToRedis } = require('./app-boot-hook-do');
 // const Sentry = require('@sentry/node');
 
 class AppBootHook {
@@ -62,7 +62,7 @@ class AppBootHook {
     // console.time('willReady');
     // const { Sequelize } = this.app.model;
     // // 资源数据缓存到redis
-    // await permissionsToRedis(this.app);
+    await permissionsToRedis(this.app);
 
     // Sequelize.addHook('afterBulkUpdate', options => {
     //   // 做些什么

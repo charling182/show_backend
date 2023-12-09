@@ -291,7 +291,7 @@ class UserService extends Service {
    * 登出
    */
   async logout() {
-    // const { ctx, app } = this;
+    const { ctx, app } = this;
     // const accessToken = ctx.request.headers.authorization && ctx.request.headers.authorization.split('Bearer ')[1];
     // return await app.redis.setex(accessToken, app.config.jwt_exp, '1');
     return 'ok';
@@ -406,7 +406,7 @@ class UserService extends Service {
         });
       } catch (e) {
         await transaction.rollback();
-        app.logger.errorAndSentry(e);
+        // app.logger.errorAndSentry(e);
         return {
           __code_wrong: 40000,
         };
@@ -435,6 +435,7 @@ class UserService extends Service {
     const currentRequestData = { userInfo: { id: user.id, username: user.username } };
     return user
       ? {
+        userId: user.id,
         accessToken: await ctx.helper.tools.apply(ctx, currentRequestData, app.config.jwt_exp),
         refreshToken: await ctx.helper.tools.apply(ctx, currentRequestData, app.config.jwt_refresh_exp, app.config.jwt.secret_refresh),
       }

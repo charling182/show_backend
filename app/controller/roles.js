@@ -8,15 +8,15 @@ const Controller = require('egg').Controller;
 
 class RolesController extends Controller {
 
-      /**
-   * @apikey
-   * @summary 获取role
-   * @description 获取role
-   * @request query string name role名
-   * @request query number limit limit
-   * @request query number offset offset
-   * @router get /backend/list
-   */
+  /**
+* @apikey
+* @summary 获取role
+* @description 获取role
+* @request query string name role名
+* @request query number limit limit
+* @request query number offset offset
+* @router get /backend/list
+*/
   async index() {
     const { ctx, service } = this;
     // get接口,字符串转数字
@@ -66,6 +66,13 @@ class RolesController extends Controller {
             msg: '不可删除默认角色',
           });
           break;
+        case 40001:
+          ctx.helper.body.INVALID_REQUEST({
+            ctx,
+            code: res.__code_wrong,
+            msg: '角色已经被分配给用户使用，解除绑定关系后删除',
+          });
+          break;
         default:
           ctx.helper.body.INVALID_REQUEST({ ctx });
           break;
@@ -96,14 +103,14 @@ class RolesController extends Controller {
    * @router get /backend/roles
    * @request query number *id eg:1 roleID
    */
-    async show() {
-        const { ctx, service } = this;
-        // get接口,字符串转数字
-        ctx.query.id ? ctx.query.id = parseInt(ctx.query.id) : '';
-        ctx.validate(ctx.rule.roleId, ctx.query);
-        const res = await service.roles.show(ctx.query.id);
-        res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
-    }
+  async show() {
+    const { ctx, service } = this;
+    // get接口,字符串转数字
+    ctx.query.id ? ctx.query.id = parseInt(ctx.query.id) : '';
+    ctx.validate(ctx.rule.roleId, ctx.query);
+    const res = await service.roles.show(ctx.query.id);
+    res ? ctx.helper.body.SUCCESS({ ctx, res }) : ctx.helper.body.NOT_FOUND({ ctx });
+  }
 
   /**
    * @apikey

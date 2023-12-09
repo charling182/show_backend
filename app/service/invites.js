@@ -62,7 +62,7 @@ class _objectName_Service extends Service {
         return true;
       } catch (e) {
         await transaction.rollback();
-        app.logger.errorAndSentry(e);
+        // app.logger.errorAndSentry(e);
         throw e;
       }
     }
@@ -181,7 +181,7 @@ class _objectName_Service extends Service {
       return true;
     } catch (e) {
       await transaction.rollback();
-      app.logger.errorAndSentry(e);
+      // app.logger.errorAndSentry(e);
       throw e;
     }
   }

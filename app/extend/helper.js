@@ -9,6 +9,7 @@ module.exports = {
    * socket消息规则解析
    */
   parseSocketMsg(params, clientId, action, method = 'publish') {
+    console.log('parseSocketMsg----------', params, clientId, action);
     const data = {
       id: uuidv4(),
       clientId,
@@ -23,6 +24,8 @@ module.exports = {
    */
   async sendSocketToClientOfRoom(params, action, project_id = params.project_id, messageType = 'sync', method = 'publish') {
     const { ctx, app, redisKeys } = this;
+    console.log('sendSocketToClientOfRoom----------', params, action);
+    // 一个命名空间下拥有多个房间，每个房间又可以有多个客户端，每个客户端又可以有多个 Socket。
     const nsp = app.io.of('/');
     let roomName = '';
     // 如果项目ID不存在，则向在线用户room广播
@@ -38,18 +41,22 @@ module.exports = {
       roomName = app.config.socketOnlineUserRoomName;
     }
     try {
+      // nsp.adapter.clients 是 Socket.IO 命名空间（Namespace）对象的一个属性，用于获取连接到该命名空间的客户端的信息。
       nsp.adapter.clients([roomName], (err, clients) => {
+        // 通过可选的 roomName 参数指定房间名称，如果省略，则获取所有客户端的信息。
+        console.log('clients--------', clients);
         clients.forEach(clientId => {
           const data = ctx.helper.parseSocketMsg(params, clientId, action, method);
+          //  使用 nsp.to 方法创建一个针对特定客户端的 Socket.IO Socket 对象，以便向该客户端发送消息
           const socket = nsp.to(clientId);
           const emitData = [messageType, data];
           socket.emit(...emitData);
           // 存入redis，接收到ACK则删除，否则在 this.app.config.socketRedisExp 时间内多次重发
-          // app.redis.setex(redisKeys.socketBaseSocketId(data.id), app.config.socketRedisExp, JSON.stringify(emitData));
+          app.redis.setex(redisKeys.socketBaseSocketId(data.id), app.config.socketRedisExp, JSON.stringify(emitData));
         });
       });
     } catch (e) {
-      app.logger.errorAndSentry(e);
+      // app.logger.errorAndSentry(e);
     }
   },
   /**
@@ -60,7 +67,7 @@ module.exports = {
     const nsp = app.io.of('/');
     nsp.adapter.clients((err, clients) => {
       if (err) {
-        app.logger.errorAndSentry(err);
+        // app.logger.errorAndSentry(err);
         return;
       }
       clients.forEach(clientId => {
@@ -75,10 +82,13 @@ module.exports = {
               const emitData = [messageType, _message];
               socket.emit(...emitData);
               // 存入redis，接收到ACK则删除，否则在 this.app.config.socketRedisExp 时间内多次重发
+              // redis.setex 是 Redis 的一个命令，用于设置带有过期时间的键值对
+              // 该命令接受三个参数：键名（key）、过期时间（seconds）、值（value）。
+              console.log('redisKeys.socketBaseSocketId(_message.id)----------', redisKeys.socketBaseSocketId(_message.id));
               app.redis.setex(redisKeys.socketBaseSocketId(_message.id), app.config.socketRedisExp, JSON.stringify(emitData));
             }
           } catch (e) {
-            app.logger.errorAndSentry(e);
+            // app.logger.errorAndSentry(e);
           }
         }
       });
@@ -154,12 +164,12 @@ module.exports.tools = {
       prop_order: {
         type: 'enum',
         required: false,
-        values: [ ...Object.keys(_rule), '' ],
+        values: [...Object.keys(_rule), ''],
       },
       order: {
         type: 'enum',
         required: false,
-        values: [ 'desc', 'asc', '' ],
+        values: ['desc', 'asc', ''],
       },
       limit: {
         type: 'number',
@@ -250,6 +260,15 @@ module.exports.body = {
     };
     ctx.status = 201;
   },
+  // 资源已经被分配给用户,不允许删除
+  PERMISSIONS_NOT_DELETE({ ctx, res = null, msg = '资源已经被分配给角色,清除角色资源后再删除' }) {
+    ctx.body = {
+      code: 403,
+      data: res,
+      msg,
+    };
+    ctx.status = 403;
+  },
 
   /*
    * @description [DELETE]：用户删除数据成功。
@@ -260,6 +279,7 @@ module.exports.body = {
       data: res,
       msg,
     };
+    // 根据 HTTP 协议，204 响应不应该包含消息体。因此，即使服务器发送了消息体，客户端也可能会忽略它
     ctx.status = 204;
   },
 
@@ -315,18 +335,18 @@ module.exports.body = {
 };
 
 module.exports.redisKeys = {
-  // // 资源基于action和url存储到redis中的key
-  // permissionsBaseActionUrl(action = '', url = '') {
-  //   return `permissions:action:${action}:url:${url}`;
-  // },
-  // // 角色资源基于roleId存储到redis中的key
-  // rolePermissionsBaseRoleId(id = '') {
-  //   return `rolePermissions:roleId:${id}`;
-  // },
-  // // 用户拥有的所有角色id，基于userId存储到redis中的key
-  // userRoleIdsBaseUserId(id = '') {
-  //   return `userRoleIds:userId:${id}`;
-  // },
+  // 资源基于action和url存储到redis中的key
+  permissionsBaseActionUrl(action = '', url = '') {
+    return `permissions:action:${action}:url:${url}`;
+  },
+  // 角色资源基于roleId存储到redis中的key
+  rolePermissionsBaseRoleId(id = '') {
+    return `rolePermissions:roleId:${id}`;
+  },
+  // 用户拥有的所有角色id，基于userId存储到redis中的key
+  userRoleIdsBaseUserId(id = '') {
+    return `userRoleIds:userId:${id}`;
+  },
   // socket发送后基于ID存储到redis中的key
   socketBaseSocketId(id = '') {
     return `socket:Id:${id}`;

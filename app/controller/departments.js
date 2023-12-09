@@ -18,7 +18,7 @@ class DepartmentController extends Controller {
   async findAll() {
     const { ctx, service } = this;
     const queryOrigin = {
-        ...ctx.query,
+      ...ctx.query,
     }
     ctx.query.limit ? queryOrigin.limit = parseInt(ctx.query.limit) : null;
     ctx.query.offset ? queryOrigin.offset = parseInt(ctx.query.offset) : null;

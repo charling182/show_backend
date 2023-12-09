@@ -54,7 +54,6 @@ class TasksService extends Service {
         },
       ];
     }
-    console.log('where------------------', where);
     return await ctx.model.Tasks.findAndCountAll({
       distinct: true,
       limit,
@@ -291,7 +290,7 @@ class TasksService extends Service {
       receiver_id: '',
       content: '',
       type: 'inform',
-      url: `/projectManagement/Project/${task.project_id}?taskId=${payload.id}`,
+      url: `/project-manage/project/${task.project_id}?taskId=${payload.id}`,
     };
     const transaction = await ctx.model.transaction();
     try {

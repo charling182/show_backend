@@ -7,22 +7,18 @@ class DefaultController extends Controller {
     const { ctx, app } = this;
     console.log('ping');
     const message = ctx.args[0];
-    await ctx.socket.emit('res', `Hi! I've got your message: ${ message }`);
+    await ctx.socket.emit('res', `Hi! I've got your message: ${message}`);
   }
 
+  // 在socket发消息前,每次都会存一下socketId,在收到ack后删除,否则在规定时间内会重发
   async ack() {
     const { ctx, app } = this;
+    // app.io.sockets.sockets是个包含所有连接的对象,键名为socket.id,键值为socket对象
+    // const connectedClients = app.io.sockets.sockets;
+    // console.log('ack-------------1', `客户端的个数是${connectedClients}`, Object.keys(connectedClients));
     const message = ctx.args[0];
-    // app.io.sockets.sockets是个包含所有连接的Map对象,可以通过size属性获取当前连接数
-    const connectedClients = app.io.sockets.sockets.size;
-    console.log('ack-------------1',message,`客户端的个数是${connectedClients}`);
-    // ctx中是当前连接的socket对象,使用ctx.socket.emit是给当前连接的客户端发送消息,
-    // 使用app.io.sockets.emit是给所有连接的客户端发送消息
-    // ctx.socket.emit('packet', message);
-    app.io.sockets.emit('packet', message);
     await app.redis.del(ctx.helper.redisKeys.socketBaseSocketId(message.id));
   }
-
 }
 
 module.exports = DefaultController;
