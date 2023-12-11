@@ -9,9 +9,9 @@ WORKDIR /root/egg-charling
 # 复制 package.json 和 lock 文件到工作目录
 COPY package*.json yarn.lock* ./
 
-# 安装依赖,--only=production会有警告
+# 安装依赖,--only=production会有警告,--verbose可以看到更多信息
 # RUN npm install --only=production
-RUN npm install --omit=dev
+RUN npm install --omit=dev --verbose
 
 # 复制项目源代码
 COPY . .
