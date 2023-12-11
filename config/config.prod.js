@@ -27,7 +27,6 @@ exports.sequelize = {
   dialectOptions: {
     dateStrings: true,
     typeCast: true,
-    // collate: 'utf8_general_ci',
   },
 };
 
