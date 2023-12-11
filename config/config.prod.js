@@ -20,9 +20,9 @@ exports.sequelize = {
     underscored: false,
     charset: 'utf8',
     timestamp: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at',
+    // createdAt: 'created_at',
+    // updatedAt: 'updated_at',
+    // deletedAt: 'deleted_at',
   },
   dialectOptions: {
     dateStrings: true,
