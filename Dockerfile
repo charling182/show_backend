@@ -9,6 +9,10 @@ WORKDIR /root/egg-charling
 # 复制 package.json 和 lock 文件到工作目录
 COPY package*.json yarn.lock* ./
 
+# 设置 npm 和 yarn 的镜像源为淘宝镜像
+RUN npm config set registry https://registry.npm.taobao.org
+RUN yarn config set registry https://registry.npm.taobao.org
+
 # 安装 yarn
 RUN npm install -g yarn
 
