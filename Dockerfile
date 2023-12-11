@@ -14,7 +14,7 @@ RUN npm config set registry https://registry.npm.taobao.org
 RUN yarn config set registry https://registry.npm.taobao.org
 
 # 安装 yarn
-RUN npm install -g yarn
+# RUN npm install -g yarn
 
 # 安装依赖,--only=production会有警告,--verbose可以看到更多信息
 # RUN npm install --only=production
