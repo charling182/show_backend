@@ -90,7 +90,7 @@ module.exports = app => {
     },
     {
       sequelize: app.model,
-      tableName: 'users',
+      tableName: 'user',
       paranoid: true, // 软删除
       charset: 'utf8mb4', // 设置字符集
       collate: 'utf8mb4_unicode_ci', // 设置校对集
