@@ -15,7 +15,7 @@ module.exports = {
           allowNull: false,
           comment: '用户ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'NO ACTION',

@@ -15,7 +15,7 @@ module.exports = {
           allowNull: false,
           comment: '发起者ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'CASCADE',
@@ -26,7 +26,7 @@ module.exports = {
           allowNull: false,
           comment: '发起者用户名',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'username',
           },
           onUpdate: 'CASCADE',

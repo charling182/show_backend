@@ -28,7 +28,7 @@ module.exports = {
           allowNull: false,
           comment: '管理者ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'NO ACTION',

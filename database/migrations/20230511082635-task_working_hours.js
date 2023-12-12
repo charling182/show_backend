@@ -51,7 +51,7 @@ module.exports = {
           defaultValue: '0',
           comment: '执行者ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'CASCADE',

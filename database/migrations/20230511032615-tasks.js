@@ -32,7 +32,7 @@ module.exports = {
           defaultValue: 1,
           comment: '创建者ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'CASCADE',

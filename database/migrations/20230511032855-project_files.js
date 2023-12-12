@@ -46,7 +46,7 @@ module.exports = {
           defaultValue: '0',
           comment: '创建人ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'CASCADE',

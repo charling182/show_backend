@@ -16,7 +16,7 @@ module.exports = {
           unique: 'user_task_like_unique',
           comment: '用户ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'CASCADE',

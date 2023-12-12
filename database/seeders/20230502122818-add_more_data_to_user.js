@@ -56,10 +56,10 @@ module.exports = {
       },
     ];
 
-    await queryInterface.bulkInsert('user', users);
+    await queryInterface.bulkInsert('users', users);
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('user', {});
+    await queryInterface.bulkDelete('users', {});
   },
 };

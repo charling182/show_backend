@@ -22,7 +22,7 @@ module.exports = {
           allowNull: false,
           comment: '发起者ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'CASCADE',
@@ -33,7 +33,7 @@ module.exports = {
           allowNull: true,
           comment: '接受者ID',
           references: {
-            model: 'user',
+            model: 'users',
             key: 'id',
           },
           onUpdate: 'CASCADE',

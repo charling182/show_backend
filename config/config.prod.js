@@ -10,8 +10,8 @@ exports.security = {
 exports.sequelize = {
   dialect: 'mysql',
   host: '123.249.3.134',
-  // host: '127.0.0.1',
   port: 3306,
+  // host: '127.0.0.1',
   // port: 33066,
   username: 'root',
   password: 'forever',

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('configuration', [
+    await queryInterface.bulkInsert('configurations', [
       {
         id: 1,
         rsa_private_key: `-----BEGIN RSA PRIVATE KEY-----
@@ -25,6 +25,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('configuration', null, {});
+    await queryInterface.bulkDelete('configurations', null, {});
   }
 };
