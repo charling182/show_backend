@@ -22,12 +22,14 @@ const runCommandsInOrder = async () => {
   try {
     // 执行数据库迁移命令
     console.log('Running migrations...');
-    await execPromise('sequelize db:migrate');
+    const migrationResult = await execPromise('sequelize db:migrate');
+    console.log('Migration result:', migrationResult);
     console.log('Migrations completed.');
 
     // 在迁移完成后执行种子文件命令
     console.log('Running seeders...');
-    await execPromise('sequelize db:seed:all');
+    const seederResult = await execPromise('sequelize db:seed:all');
+    console.log('Seeder result:', seederResult);
     console.log('Seeders completed.');
   } catch (error) {
     console.error('Error:', error);
