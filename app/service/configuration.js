@@ -14,7 +14,7 @@ class ConfigurationService extends Service {
     const { ctx } = this;
     return await ctx.model.Configuration.findOne({
       where: { id },
-      attributes: { exclude: [ 'rsa_private_key' ] },
+      attributes: { exclude: ['rsa_private_key'] },
     });
   }
 }

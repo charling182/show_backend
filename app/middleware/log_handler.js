@@ -24,6 +24,7 @@ module.exports = (option, app) => {
         ctx.service.operationLogs.create(payload);
       }
     } catch (err) {
+      console.log('log_handler_err----------', err);
       // app.logger.errorAndSentry(err);
     }
   };

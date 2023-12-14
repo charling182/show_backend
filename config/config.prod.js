@@ -1,5 +1,7 @@
 'use strict';
 
+const { v4: uuidv4 } = require('uuid');
+
 // 不开启csrf(跨站攻击)防御,每次请求生成一次太费性能
 exports.security = {
   csrf: {

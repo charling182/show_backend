@@ -28,7 +28,7 @@ module.exports = app => {
       type: DATE
     }
   }, {});
-  roles.associate = function(models) {
+  roles.associate = function (models) {
     // associations can be defined here
     app.model.Roles.belongsToMany(app.model.Permissions, {
       through: app.model.RolePermissions, // 指定关联表，这里是 RolePermissions 中间表

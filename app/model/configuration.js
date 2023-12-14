@@ -3,7 +3,7 @@
 const { Model } = require('sequelize');
 
 module.exports = app => {
-  class Configuration extends Model {}
+  class Configuration extends Model { }
 
   Configuration.init(
     {
@@ -35,7 +35,7 @@ module.exports = app => {
     },
     {
       sequelize: app.model,
-      tableName: 'configuration',
+      tableName: 'configurations',
       paranoid: true,
       charset: 'utf8mb4',
       collate: 'utf8mb4_unicode_ci',

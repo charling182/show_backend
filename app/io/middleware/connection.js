@@ -7,11 +7,11 @@ module.exports = app => {
     // 创建了一个Socket.IO的命名空间对象,你可以在该命名空间下注册事件处理程序、
     // 发送和接收特定于该命名空间的消息，以及管理与该命名空间相关的Socket连接
     const nsp = app.io.of('/');
-    console.log('开始连接,输出socket.id----------!', socket.id);
     try {
       const { accessToken, userId } = socket.handshake.query;
       const res = await app.redis.exists(accessToken);
       const token = accessToken.split('Bearer ')[1];
+      console.log('开始连接,输出socket.id----------!', socket.id, accessToken, userId);
       // 如果token 不存在，或者在redis黑名单，则断开连接
       // redis.exists 命令用于在 Redis 中检查一个或多个键是否存在于数据库中
       if (!token || (await app.redis.exists(accessToken)) === 1) {

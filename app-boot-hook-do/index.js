@@ -2,6 +2,7 @@
 module.exports = {
   // 资源数据缓存到redis
   async permissionsToRedis(app) {
+    console.log('资源数据缓存到redis-----------');
     // 用于在非 HTTP 请求场景下创建一个匿名的应用上下文对象。
     // Context 对象包含了当前请求的上下文信息，例如请求参数、请求头、Cookie 等。它提供了一系列的方法和属性，用于获取和操作当前请求的相关信息
     const ctx = await app.createAnonymousContext();
