@@ -11,6 +11,7 @@ module.exports = {
   },
   async task(ctx) {
     // 资源数据缓存到redis
+    console.log('update_cache_redis----------');
     await permissionsToRedis(ctx.app);
   },
 };

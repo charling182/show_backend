@@ -62,6 +62,7 @@ class AppBootHook {
     // console.time('willReady');
     // const { Sequelize } = this.app.model;
     // // 资源数据缓存到redis
+    console.log('willReady------------');
     await permissionsToRedis(this.app);
 
     // Sequelize.addHook('afterBulkUpdate', options => {
@@ -90,7 +91,7 @@ class AppBootHook {
     // // 此时可以从 app.server 拿到 server 的实例
 
     this.app.server.on('timeout', socket => {
-      console.log('timeout------------', socket);
+      console.log('timeout------------');
       // handle socket timeout
     });
   }
