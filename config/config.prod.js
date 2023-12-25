@@ -8,6 +8,11 @@ exports.security = {
     enable: false,
   },
 };
+// 日志
+exports.logger = {
+  level: 'DEBUG',
+  // 其他配置...
+};
 
 exports.sequelize = {
   dialect: 'mysql',
