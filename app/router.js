@@ -5,6 +5,7 @@ module.exports = app => {
   /**
    * webSocket
    */
+  // const nsp = io.of('/');
   const nsp = io.of('/');
   nsp.route('server', io.controller.index.ping);
   nsp.route('ack', io.controller.index.ack);

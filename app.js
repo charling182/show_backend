@@ -90,7 +90,7 @@ class AppBootHook {
     // // 此时可以从 app.server 拿到 server 的实例
 
     this.app.server.on('timeout', socket => {
-      console.log('timeout------------');
+      console.log('timeout------------', socket);
       // handle socket timeout
     });
   }
