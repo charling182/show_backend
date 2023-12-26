@@ -18,3 +18,10 @@ spec:
         image: 18515481949/backend-image:latest
         ports:
         - containerPort: 7001
+        volumeMounts:
+        - name: uploads-volume
+          mountPath: /root/egg-charling/public/uploads
+        volumes:
+        - name: uploads-volume
+          persistentVolumeClaim:
+            claimName: uploads-pvc
