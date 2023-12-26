@@ -21,7 +21,7 @@ spec:
         volumeMounts:
         - name: uploads-volume
           mountPath: /root/egg-charling/public/uploads
-        volumes:
-        - name: uploads-volume
-          persistentVolumeClaim:
-            claimName: uploads-pvc
+      volumes:
+      - name: uploads-volume
+        persistentVolumeClaim:
+          claimName: uploads-pvc
