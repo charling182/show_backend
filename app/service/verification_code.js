@@ -38,7 +38,7 @@ class VerificationCodeService extends Service {
       .substring(2, 8);
 
     // 读取图片文件
-    const imagePath = path.join(__dirname, '/public/image/charling.png');
+    const imagePath = path.join(__dirname, '../../public/image/charling.png');
     const imageBuffer = fs.readFileSync(imagePath);
 
     // 将图片文件转换为 Base64 格式,因为邮件客户端会拦截图片链接,所以将图片转成base64格式
