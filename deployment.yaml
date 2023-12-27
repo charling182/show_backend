@@ -25,3 +25,5 @@ spec:
       - name: uploads-volume
         persistentVolumeClaim:
           claimName: uploads-pvc
+      nodeSelector:
+        mysql-ready: "true"

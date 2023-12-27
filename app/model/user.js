@@ -56,7 +56,7 @@ module.exports = app => {
         type: app.Sequelize.STRING(255),
         comment: '头像url',
         allowNull: false,
-        defaultValue: '',
+        defaultValue: 'https://qiniucdn.imfdj.top/avatar.jpg',
       },
       company: {
         type: app.Sequelize.STRING(80),
