@@ -226,6 +226,7 @@ class UserService extends Service {
     email ? where[Op.or].push({ email }) : null;
     return await ctx.model.User.findOne({
       where,
+      paranoid: false,
       attributes: { exclude: ['password', 'deleted_at'] },
     });
   }

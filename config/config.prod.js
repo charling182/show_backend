@@ -34,6 +34,12 @@ exports.sequelize = {
     dateStrings: true,
     typeCast: true,
   },
+  pool: {
+    max: 5, // 连接池中最大连接数量
+    min: 0, // 连接池中最小连接数量
+    acquire: 30000, // 连接池尝试获取连接之前的最大等待时间（毫秒）
+    idle: 10000 // 连接在被释放之前可以空闲的最长时间（毫秒）
+  }
 };
 
 exports.redis = {
