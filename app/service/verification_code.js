@@ -2,6 +2,8 @@
 
 const Service = require('egg').Service;
 const { Op } = require('sequelize');
+const path = require('path');
+const fs = require('fs');
 
 class VerificationCodeService extends Service {
 
@@ -34,6 +36,14 @@ class VerificationCodeService extends Service {
     const code = Math.random()
       .toString()
       .substring(2, 8);
+
+    // 读取图片文件
+    const imagePath = path.join(__dirname, '/public/image/charling.png');
+    const imageBuffer = fs.readFileSync(imagePath);
+
+    // 将图片文件转换为 Base64 格式,因为邮件客户端会拦截图片链接,所以将图片转成base64格式
+    const imageBase64 = imageBuffer.toString('base64');
+
     app.mailer.send({
       from: '"Charling" <1650070770@qq.com>', // sender address, [options] default to user
       // // Array => ['bar@example.com', 'baz@example.com']
@@ -42,7 +52,7 @@ class VerificationCodeService extends Service {
       text: code, // plain text body
       html: `<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;
                   width: 300px;height: 300px;box-shadow: 0px 0px 10px #ccc;border-radius: 30px;margin: 66px auto;">
-                <img width="100" src="http://charling.top/public/image/charling.png" alt="">
+                <img width="100" src="data:image/png;base64,${imageBase64}" alt="项目图片">
                 <span style="line-height: 36px;">来自 Charling 的邮箱验证码：</span>
                 <div style="font-weight: 600;font-size: 22px;line-height: 46px;">${code}</div>
               </div>`, // html body
