@@ -42,7 +42,7 @@ class VerificationCodeService extends Service {
       text: code, // plain text body
       html: `<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;
                   width: 300px;height: 300px;box-shadow: 0px 0px 10px #ccc;border-radius: 30px;margin: 66px auto;">
-                <img width="100" src="/public/image/charling.png" alt="">
+                <img width="100" src="http://charling.top/public/image/charling.png" alt="">
                 <span style="line-height: 36px;">来自 Charling 的邮箱验证码：</span>
                 <div style="font-weight: 600;font-size: 22px;line-height: 46px;">${code}</div>
               </div>`, // html body
