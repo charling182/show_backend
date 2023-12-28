@@ -223,7 +223,6 @@ module.exports.tools = {
     for (const ruleKey in _rule) {
       _rule[ruleKey].type = 'string';
     }
-    console.log('getRulesTypeTransform--------', _rule);
     return _rule;
   },
 

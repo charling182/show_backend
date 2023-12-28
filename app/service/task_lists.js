@@ -34,16 +34,18 @@ class _objectName_Service extends Service {
       ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非公共项目，且不是项目成员，则无权获取该项目的任务列表数据' });
       return false;
     }
-    const where = payload.where;
+    const listWhere = payload.listWhere;
+    const taskWhere = payload.taskWhere;
     const Order = [['sort', 'asc']];
     prop_order && order ? Order.push([prop_order, order]) : null;
     return await ctx.model.TaskLists.findAndCountAll({
       distinct: true,
       limit,
       offset,
-      where,
+      where: listWhere,
       order: Order,
       include: {
+        where: taskWhere,
         model: ctx.model.Tasks,
         as: 'tasks',
       }
