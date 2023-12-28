@@ -94,6 +94,11 @@ class AppBootHook {
       console.log('timeout------------');
       // handle socket timeout
     });
+    this.app.server.on('request', (req, res) => {
+      req.on('timeout', () => {
+        console.log(`Request for ${req.url} timed out.`);
+      });
+    });
   }
 }
 
