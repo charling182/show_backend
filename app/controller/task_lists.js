@@ -74,6 +74,7 @@ class RoleController extends Controller {
       queries.task_priority_ids ? queries.taskWhere[Op.and].push({ task_priority_id: queries.task_priority_ids }) : null;
       queries.task_state_ids ? queries.taskWhere[Op.and].push({ task_state_id: queries.task_state_ids }) : null;
     }
+    console.log('queries--------------', queries);
     const res = await service.taskLists.findAll(queries);
     if (res === false) return;
     ctx.helper.body.SUCCESS({ ctx, res });

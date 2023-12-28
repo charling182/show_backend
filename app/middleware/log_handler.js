@@ -4,7 +4,6 @@ module.exports = (option, app) => {
   return async function (ctx, next) {
     try {
       await next();
-      console.log('是否经过-------');
       // 如果是开发环境或者是生产环境且非GET 存储操作日志
       if (
         (app.config.env === 'prod' || app.config.env === 'local') &&

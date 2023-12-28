@@ -38,17 +38,21 @@ class _objectName_Service extends Service {
     const taskWhere = payload.taskWhere;
     const Order = [['sort', 'asc']];
     prop_order && order ? Order.push([prop_order, order]) : null;
+    // taskWhere不是空对象时，才查询任务列表下的任务
+    let include = {
+      model: ctx.model.Tasks,
+      as: 'tasks',
+    }
+    if (Object.keys(taskWhere).length) {
+      include.where = taskWhere;
+    }
     return await ctx.model.TaskLists.findAndCountAll({
       distinct: true,
       limit,
       offset,
       where: listWhere,
       order: Order,
-      include: {
-        where: taskWhere,
-        model: ctx.model.Tasks,
-        as: 'tasks',
-      }
+      include,
     });
   }
 
