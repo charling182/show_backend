@@ -5,7 +5,7 @@ const fs = require('fs');
 
 module.exports = {
     schedule: {
-        interval: 1000 * 60, // 一分钟执行一次,测试用
+        cron: '0 1 * * *', // 每天一点执行一次,第一个字段是分钟（0），第二个字段是小时（1），后面的三个星号表示日期、月份和星期可以是任意值
         type: 'worker', // 指定所有的 worker 都需要执行
         disable: false, // 配置该参数为 true 时，这个定时任务不会被启动。
         immediate: false, // 配置了该参数为 true 时，这个定时任务会在应用启动并 ready 后立刻执行一次这个定时任务。
@@ -27,7 +27,6 @@ module.exports = {
 
         const backupDir = path.join(grandparentDir, backup_dir);
 
-        console.log('backupDir------', backupDir);
 
         // 获取备份目录中的所有文件
         const files = fs.readdirSync(backupDir);
@@ -49,7 +48,6 @@ module.exports = {
                 ctx.logger.error(`Error executing ${dumpCommand}: ${error}`);
                 return;
             }
-            console.log('备份成功', config);
             ctx.logger.info(`Database backed up successfully.`);
         });
     },
