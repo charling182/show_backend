@@ -18,10 +18,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "forever",
-    "database": "egg_charling_pro",
-    "host": "123.249.3.134",
+    "username": "charling",
+    "password": "18240542192",
+    "database": "egg_charling_dev",
+    "host": "127.0.0.1",
     "port": "3306",
     "dialect": "mysql",
     "seederStorage": "sequelize",

@@ -3,7 +3,9 @@
 const path = require('path');
 
 module.exports = {
-  config: path.join(__dirname, 'database/config.json'),
+  // config使用js文件,为了用环境变量
+  config: path.join(__dirname, 'database/config.js'),
+  // config: path.join(__dirname, 'database/config.json'),
   'migrations-path': path.join(__dirname, 'database/migrations'),
   'seeders-path': path.join(__dirname, 'database/seeders'),
   'models-path': path.join(__dirname, 'app/model'),
