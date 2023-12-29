@@ -76,12 +76,17 @@ class AppBootHook {
     // console.timeEnd('willReady');
     // // const ctx = await this.app.createAnonymousContext();
     // // await ctx.service.Biz.request();
-    // // 如果没有uploads文件夹，则创建
-    const { dir, upload_dir } = this.app.config.static;
+    // // 如果没有uploads,backup文件夹，则创建
+    const { dir, upload_dir, backup_dir } = this.app.config.static;
     const public_uploads = path.join(dir, upload_dir);
     this.app.config.static.public_uploads_path = public_uploads;
     if (!fs.existsSync(public_uploads)) {
       fs.mkdirSync(public_uploads, { recursive: true });
+    }
+    // backup_dir_path是保存备份文件的目录,该目录最终会映射到宿主机的地址上
+    const backup_dir_path = path.join(__dirname, backup_dir);
+    if (!fs.existsSync(backup_dir_path)) {
+      fs.mkdirSync(backup_dir_path, { recursive: true });
     }
   }
 
@@ -95,7 +100,7 @@ class AppBootHook {
     //   socket.pause();
     // });
     this.app.server.on('timeout', socket => {
-      console.log('timeout------------', socket);
+      console.log('timeout------------');
       // handle socket timeout
     });
   }

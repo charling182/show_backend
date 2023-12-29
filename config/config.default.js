@@ -78,6 +78,7 @@ module.exports = appInfo => {
     prefix: '/public/', // 这里的 prefix 是 URL 前缀，例如 /public，表示访问静态文件时需要添加 /public 前缀；
     dir: `${appInfo.baseDir}/public`, // dir 是静态文件目录，例如 ${appInfo.baseDir}/public，表示静态文件部署在项目的 public 目录中
     upload_dir: 'uploads', // 文件上传目录，例如 uploads，表示上传的文件会保存在静态文件目录下的 uploads 目录中。
+    backup_dir: 'backup', // 文件备份目录，例如 backup，表示上传的文件会保存在静态文件目录下的 backup 目录中,映射到宿主机的地址上
   };
 
 

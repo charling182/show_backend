@@ -12,5 +12,6 @@ run/
 typings/
 .nyc_output/
 public/uploads/*
+backup/*
 .github
 

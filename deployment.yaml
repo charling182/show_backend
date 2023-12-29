@@ -67,9 +67,14 @@ spec:
         volumeMounts:
         - name: uploads-volume
           mountPath: /root/egg-charling/public/uploads
+        - name: backup-volume
+          mountPath: /root/egg-charling/backup #此处为mysql的备份路径,也是mysql的数据路径,都映射到宿主机上
       volumes:
       - name: uploads-volume
         persistentVolumeClaim:
           claimName: uploads-pvc
+      - name: backup-volume
+        persistentVolumeClaim:
+          claimName: mysql-data-mysql-0
       nodeSelector:
         mysql-ready: "true"
