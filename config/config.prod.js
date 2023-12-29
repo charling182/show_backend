@@ -16,13 +16,11 @@ exports.logger = {
 
 exports.sequelize = {
   dialect: 'mysql',
-  host: '123.249.3.134',
-  port: 3306,
-  // host: '127.0.0.1',
-  // port: 33066,
-  username: 'root',
-  password: 'forever',
-  database: 'egg_charling_pro',
+  host: process.env.MySqlHost || '127.0.0.1',
+  port: process.env.MySqlPort || 3306,
+  username: process.env.MySqlUserName,
+  password: process.env.MySqlPassword,
+  database: process.env.MySqlDatabase,
   timezone: '+08:00',
   define: {
     raw: true, // 使用原始查询,不开启的话,则返回的数据可能包含了 Sequelize 额外添加的一些属性字段
@@ -44,11 +42,10 @@ exports.sequelize = {
 
 exports.redis = {
   client: {
-    port: 6379,
-    host: '123.249.3.134',
-    // host: '127.0.0.1',
-    password: '123123',
-    db: 1,
+    port: process.env.RedisPort || 6379,
+    host: process.env.RedisHost || '127.0.0.1',
+    password: process.env.RedisPassword,
+    db: process.env.RedisDb || 1,
   },
 };
 
@@ -67,10 +64,9 @@ exports.io = {
     },
   },
   redis: {
-    host: '123.249.3.134',
-    // host: '127.0.0.1',
-    port: 6379,
-    password: '123123',
+    host: process.env.RedisHost || '127.0.0.1',
+    port: process.env.RedisPort || 6379,
+    password: process.env.RedisPassword,
     db: 3,
   },
   generateId: req => {
@@ -79,3 +75,4 @@ exports.io = {
     return `${req._query.userId}_${uuidv4()}`; // custom id must be unique
   },
 };
+

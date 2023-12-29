@@ -16,6 +16,52 @@ spec:
       containers:
       - name: backend-container
         image: 18515481949/backend-image:latest
+        env:
+        - name: MySqlHost
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: MySqlHost
+        - name: MySqlPort
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: MySqlPort
+        - name: MySqlUserName
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: MySqlUserName
+        - name: MySqlPassword
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: MySqlPassword
+        - name: MySqlDatabase
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: MySqlDatabase
+        - name: RedisPort
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: RedisPort
+        - name: RedisHost
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: RedisHost
+        - name: RedisPassword
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: RedisPassword
+        - name: RedisDb
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: RedisDb
         ports:
         - containerPort: 7001
         volumeMounts:

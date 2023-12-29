@@ -86,17 +86,16 @@ class AppBootHook {
   }
 
   async serverDidReady() {
+    // this.app.server.timeout = 1;
     console.log('serverDidReady');
     // // http / https server 已启动，开始接受外部请求
     // // 此时可以从 app.server 拿到 server 的实例
-    this.app.server.on('request', (req, res) => {
-      console.log('request------------');
-      req.on('timeout', () => {
-        console.log(`Request for ${req.url} timed out.`);
-      });
-    });
+    // this.app.server.on('connection', socket => {
+    //   console.log('connection------------');
+    //   socket.pause();
+    // });
     this.app.server.on('timeout', socket => {
-      console.log('timeout------------');
+      console.log('timeout------------', socket);
       // handle socket timeout
     });
   }
