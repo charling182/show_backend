@@ -45,7 +45,7 @@ class _objectName_Service extends Service {
         },
       });
       if (!project) {
-        ctx.helper.body.UNAUTHORIZED({ ctx, msg: '如果是项目成员邀请，则邀请发起者必须是项目的拥有者' });
+        ctx.helper.body.FORBIDDEN({ ctx, msg: '如果是项目成员邀请，则邀请发起者必须是项目的拥有者' });
         return false;
       }
       const transaction = await ctx.model.transaction();

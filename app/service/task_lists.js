@@ -31,7 +31,7 @@ class _objectName_Service extends Service {
       ],
     });
     if (!project) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非公共项目，且不是项目成员，则无权获取该项目的任务列表数据' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非公共项目，且不是项目成员，则无权获取该项目的任务列表数据' });
       return false;
     }
     const listWhere = payload.listWhere;
@@ -67,7 +67,7 @@ class _objectName_Service extends Service {
     // 非项目成员则无权创建此项目的任务列表
     const project = await service.tasks.getProjectForMember(project_id);
     if (!project) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权创建此项目的任务列表' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权创建此项目的任务列表' });
       return false;
     }
     const taskList = await ctx.model.TaskLists.findAll({
@@ -86,7 +86,7 @@ class _objectName_Service extends Service {
     // 非项目成员则无权修改此项目的任务列表
     const project = await service.tasks.getProjectForMember(project_id);
     if (!project) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权修改此项目的任务列表' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权修改此项目的任务列表' });
       return false;
     }
     return await ctx.model.TaskLists.update(payload, {
@@ -135,7 +135,7 @@ class _objectName_Service extends Service {
     // 如果存在任务列表数量和此用户为项目成员的任务列表数量不一致，则认为存在删除非项目成员任务列表，则 非项目成员则无权删除此项目的任务列表
     const taskLists = await this.getTaskListForMember(payload.ids);
     if (taskListsExist.length !== taskLists.length) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权删除此项目的任务列表' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权删除此项目的任务列表' });
       return false;
     }
     return await ctx.model.TaskLists.destroy({
@@ -150,7 +150,7 @@ class _objectName_Service extends Service {
     // 非项目成员则无权修改此项目的任务列表
     const taskLists = await this.getTaskListForMember(payload.id);
     if (!(taskLists && taskLists.length)) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权修改此项目的任务列表' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权修改此项目的任务列表' });
       return false;
     }
     let sort = 0;

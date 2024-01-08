@@ -21,6 +21,15 @@ module.exports = {
         // -p${process.env.MySqlPassword} 之间不能有空格,否则会打断自动进程,需要手动输入密码
         const dumpCommand = `mysqldump -h ${process.env.MySqlHost} -P ${process.env.MySqlPort} -u ${process.env.MySqlUserName} -p${process.env.MySqlPassword} ${process.env.MySqlDatabase} > ./backup/${timestamp}_backup.sql`;
 
+        child_process.exec(dumpCommand, (error, stdout, stderr) => {
+            if (error) {
+                ctx.logger.error(`Error executing ${dumpCommand}: ${error}`);
+                return;
+            }
+            ctx.logger.info(`Database backed up successfully.`);
+        });
+
+        // 删除旧的备份文件,只保留最新的三个备份文件
         const { backup_dir } = ctx.app.config.static;
 
         const grandparentDir = path.dirname(path.dirname(__dirname));
@@ -42,13 +51,5 @@ module.exports = {
 
         // 删除这些文件
         filesToDelete.forEach(file => fs.unlinkSync(path.join(backupDir, file)));
-
-        child_process.exec(dumpCommand, (error, stdout, stderr) => {
-            if (error) {
-                ctx.logger.error(`Error executing ${dumpCommand}: ${error}`);
-                return;
-            }
-            ctx.logger.info(`Database backed up successfully.`);
-        });
     },
 };

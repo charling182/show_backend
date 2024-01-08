@@ -212,7 +212,7 @@ class TasksService extends Service {
     // 非项目成员则无权创建此项目的任务
     const project = await this.getProjectForMember(project_id);
     if (!project) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权创建此项目的任务' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权创建此项目的任务' });
       return false;
     }
 
@@ -272,7 +272,7 @@ class TasksService extends Service {
     // 非项目成员则无权修改此项目的任务
     const tasks = await this.getTaskForMember(payload.id);
     if (!(tasks && tasks.length)) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权修改此项目的任务' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权修改此项目的任务' });
       return false;
     }
     const taskNameSpan = `<span class="task-name">${task.name}</span>`;
@@ -439,7 +439,7 @@ class TasksService extends Service {
     // 如果存在任务数量和此用户为项目成员的任务数量不一致，则认为存在删除非项目成员任务，则 非项目成员则无权删除此项目的任务
     const tasks = await this.getTaskForMember(payload.ids);
     if (tasksExist.length !== tasks.length) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权删除此项目的任务' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权删除此项目的任务' });
       return false;
     }
     return await ctx.model.Tasks.destroy({
@@ -456,7 +456,7 @@ class TasksService extends Service {
     // 非项目成员则无权修改此项目的任务
     const tasks = await this.getTaskForMember(payload.id);
     if (!(tasks && tasks.length)) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权修改此项目的任务' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权修改此项目的任务' });
       return false;
     }
     let sort = 0;
@@ -534,7 +534,7 @@ class TasksService extends Service {
       ],
     });
     if (!taskList) {
-      ctx.helper.body.UNAUTHORIZED({ ctx, msg: '非项目成员则无权修改此项目的任务' });
+      ctx.helper.body.FORBIDDEN({ ctx, msg: '非项目成员则无权修改此项目的任务' });
       return false;
     }
     return await ctx.model.Tasks.update(
